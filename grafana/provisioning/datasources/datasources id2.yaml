@@ -1,0 +1,26 @@
+apiVersion: 1
+
+datasources:
+  - name: 'PostgreSQL DB'
+    type: postgres
+    access: proxy
+    url: postgres:1234
+    user: '1234'
+    database: '1234'
+    isDefault: true
+    orgId: 2
+    jsonData:
+      sslmode: 'disable'
+      postgresVersion: 16
+    secureJsonData:
+      password: '1234'
+  - name: 'My HTTP API'
+    type: 'marcusolsson-json-datasource'
+    access: proxy
+    orgId: 2
+    url: http://api.service.example.url
+  - name: 'My HTTP API 2'
+    type: 'marcusolsson-json-datasource'
+    access: proxy
+    orgId: 2
+    url: http://api.service.example.url

@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: 'default-org3'
+    orgId: 3
+    folder: ''
+    type: file
+    disableDeletion: false
+    editable: false
+    options:
+      path: /etc/grafana/provisioning/dashboards/templates_3

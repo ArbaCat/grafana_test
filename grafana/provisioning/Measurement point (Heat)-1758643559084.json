@@ -1,0 +1,2154 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_POSTGRE_SQL UVN",
+      "label": "Postgre SQL UVN",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-postgresql-datasource",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "felixrelleum-geomapwms-panel",
+      "name": "Geomap Panel WMS",
+      "version": "2.0.1"
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "12.1.0-pre"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-postgresql-datasource",
+      "name": "PostgreSQL",
+      "version": "12.1.0-pre"
+    },
+    {
+      "type": "panel",
+      "id": "marcusolsson-dynamictext-panel",
+      "name": "Business Text",
+      "version": "6.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 2,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRE_SQL UVN}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 20,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "afterRender": "",
+        "content": "<div class=\"header-container\">\r\n  <img class=\"logo-desktop\" src=\"https://www.daitable.com/Daitable_logo_white.svg\" alt=\"Logo for desktop\">\r\n  <img class=\"logo-mobile\" src=\"/public/img/grafana_icon.svg\" alt=\"Logo for mobile\">\r\n  <h1 id=\"page_title\"> Placeholder </h1>\r\n</div>",
+        "contentPartials": [],
+        "defaultContent": "<div class=\"header-container\">\n  <img class=\"logo-desktop\" src=\"https://www.daitable.com/Daitable_logo_white.svg\" alt=\"Logo for desktop\">\n  <img class=\"logo-mobile\" src=\"/public/img/grafana_icon.svg\" alt=\"Logo for mobile\">\n  <h1 id=\"page_title\">♨️ </h1>\n</div>",
+        "editor": {
+          "format": "auto",
+          "language": "html"
+        },
+        "editors": [
+          "styles",
+          "default",
+          "helpers"
+        ],
+        "externalStyles": [],
+        "helpers": "setInterval(() => {\n  const dashboardUID = window.location.pathname.split('/')[2];\n  \n\n  const targetLabels = [\n    'Dnešná spotreba',\n    'Dnešná cena',\n    'Mesačná spotreba',\n    'Mesačná cena',\n    'Spotreba za vybrané obdobie',\n    'Cena za vybrané obdobie',\n  ];\n\n  const allDivs = document.querySelectorAll('div');\n  allDivs.forEach(div => {\n    if (targetLabels.includes(div.innerText.trim())) {\n      div.style.width = '100%';\n      div.style.display = 'block';\n    }\n  });\n}, 500);\n\n\n// border radius \nsetTimeout(() => {\n  const dashboardUID = window.location.pathname.split('/')[2];\n  \n\n  const keywords = ['Pripojený', 'Chyba pripojenia', 'Virtuálny bod'];\n\n  const observer = new MutationObserver(() => {\n    document.querySelectorAll('div[style*=\"background: linear-gradient\"]').forEach(el => {\n      const text = el.innerText.trim();\n      if (keywords.some(keyword => text.includes(keyword))) {\n        el.style.borderRadius = '25px';\n        el.style.overflow = 'hidden';\n      }\n    });\n  });\n\n  observer.observe(document.body, {\n    childList: true,\n    subtree: true,\n  });\n}, 300);\n",
+        "renderMode": "allRows",
+        "styles": "h1 {\n  font-size: clamp(1.9rem, 2.5vw, 3rem);  \n  font-family: 'Montserrat', sans-serif;\n  font-weight: bold;\n  margin: 0;\n  white-space: normal;\n  max-width: 100%;\n}\n\n.header-container {\n  overflow: hidden;\n  display: flex;\n  flex-wrap: nowrap;          \n  align-items: center;         \n  justify-content: flex-start; \n  gap: 20px;                   \n  padding-left: 10px;\n  text-align: left;\n}\n\n.logo-desktop,\n.logo-mobile {\n  height: clamp(40px, 8vw, 80px);\n  width: auto;\n}\n\n.logo-mobile {\n  display: none;\n}\n\n@media (max-width: 576px) {\n  .logo-desktop {\n      display: none;\n  }\n  .logo-mobile {\n      display: none;   \n  }\n }\n\n@media (min-width: 577px) and (max-width: 991px) {\n  .logo-desktop {\n      display: none;\n  }\n  .logo-mobile {\n      display: block;\n      height: clamp(40px, 8vw, 80px);\n  }\n}\n\n@media (min-width: 992px) {\n  .logo-desktop {\n      display: block;\n  }\n  .logo-mobile {\n      display: none;\n  }\n}",
+        "wrap": true
+      },
+      "pluginVersion": "6.0.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  title::TEXT AS title\r\nFROM\r\n  datapresenter.views\r\nWHERE\r\n  id = $view",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "marcusolsson-dynamictext-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRE_SQL UVN}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "Connection error"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "color": "#26b24a",
+                  "index": 1,
+                  "text": "Connected"
+                },
+                "to": 300
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "red",
+                  "index": 2,
+                  "text": "Connection error"
+                }
+              },
+              "type": "special"
+            },
+            {
+              "options": {
+                "from": -1000,
+                "result": {
+                  "color": "semi-dark-orange",
+                  "index": 3,
+                  "text": "Calculated point"
+                },
+                "to": -1
+              },
+              "type": "range"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#26b24a"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 25
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH statuses AS (\r\n  SELECT 1 AS id, NOW() AS timestamp, 150 AS last_record, 'Connected' AS value\r\n  UNION ALL\r\n  SELECT 2 AS id, NOW() AS timestamp, -1 AS last_record, 'Connection error' AS value\r\n  UNION ALL\r\n  SELECT 3 AS id, NOW() AS timestamp, -500 AS last_record, 'Calculated point' AS value\r\n  UNION ALL\r\n  SELECT 4 AS id, NOW() AS timestamp, NULL AS last_record, 'Connection error' AS value\r\n)\r\nSELECT\r\n  timestamp,\r\n  last_record,\r\n  value\r\nFROM\r\n  statuses\r\n/* This WHERE clause makes the query text change when the variable changes.\r\n  This forces the panel to request a new random value instead of showing a cached one.\r\n  Replace 'electrometer' with the name of your dashboard variable.\r\n*/\r\nWHERE '${view}' IS NOT NULL \r\nORDER BY\r\n  RANDOM()\r\nLIMIT 1;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 23,
+      "panels": [],
+      "title": "Info",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRE_SQL UVN}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 16,
+        "x": 0,
+        "y": 4
+      },
+      "id": 22,
+      "options": {
+        "afterRender": "",
+        "content": "#### Measurement point type\n*♨️ Heatmeter(Demo data)*\n\n\n#### Point type\n*Measurement type(Demo data)*\n\n\n#### Description\n*Demo data*\n\n#### Top node\n*Top node(Demo data)*",
+        "contentPartials": [],
+        "defaultContent": "The query didn't return any results.",
+        "editor": {
+          "format": "auto",
+          "language": "markdown"
+        },
+        "editors": [],
+        "externalStyles": [],
+        "helpers": "",
+        "renderMode": "allRows",
+        "styles": "",
+        "wrap": true
+      },
+      "pluginVersion": "6.0.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH child_data AS (\r\n  SELECT\r\n    n.id,\r\n    n.description,\r\n    n.type_string,\r\n    CASE\r\n      WHEN n.type = 'real' THEN '🕛 Reálny merací bod'\r\n      WHEN n.type = 'virtual' THEN '📱 Virtuálny merací bod'\r\n      WHEN n.type = 'residual' THEN '⚖️ Zostatkový merací bod'\r\n    END AS type\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n)\r\nSELECT\r\n  ch.*,\r\n  v.name AS parent_view\r\nFROM\r\n  child_data ch,\r\n  datapresenter.views v,\r\n  datapresenter.edges e\r\nWHERE\r\n  v.main_node_id = e.parent_id\r\n  AND e.child_id = ch.id",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "marcusolsson-dynamictext-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRE_SQL UVN}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 4
+      },
+      "id": 24,
+      "options": {
+        "basemap": {
+          "config": {
+            "server": "streets",
+            "showLabels": true,
+            "theme": "auto"
+          },
+          "type": "osm-standard"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": false,
+          "showDebug": false,
+          "showLayercontrol": false,
+          "showScale": true,
+          "showSpatialFilter": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "dark-orange"
+              },
+              "enableGradient": false,
+              "enableShadow": true,
+              "fillOpacity": 0.4,
+              "geoJsonStrokeSize": {
+                "fixed": 5,
+                "max": 10,
+                "min": 1
+              },
+              "iconSize": 30,
+              "pinShape": "marker",
+              "selectIcon": "fa-fire",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": true,
+              "size": {
+                "fixed": 2,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "displayProperties": [],
+            "location": {
+              "latitude": "lat",
+              "longitude": "lon",
+              "mode": "geojson"
+            },
+            "name": "Elektromer",
+            "query": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "titleField": "title",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "auto",
+          "lat": 49.076164,
+          "lon": 19.311861,
+          "zoom": 17
+        }
+      },
+      "pluginVersion": "2.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  n.title,\r\n  n.location_lat AS lat,\r\n  n.location_lon AS lon,\r\n  n.geojson AS geojson\r\nFROM\r\n  datapresenter.nodes n\r\nJOIN\r\n  datapresenter.views v\r\nON\r\n  n.id = v.main_node_id AND v.id = $view",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          }
+        }
+      ],
+      "title": "Placing",
+      "transparent": true,
+      "type": "felixrelleum-geomapwms-panel"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 11,
+      "panels": [],
+      "title": "Consumption",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 90,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "displayName": "Consumption",
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "date"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Dátum"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "consumption (sum)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Forecast (sum)"
+            },
+            "properties": [
+              {
+                "id": "custom.fillOpacity",
+                "value": 46
+              },
+              {
+                "id": "displayName",
+                "value": "Forecast"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 20,
+        "x": 0,
+        "y": 14
+      },
+      "id": 3,
+      "options": {
+        "barRadius": 0.15,
+        "barWidth": 0.8,
+        "fullHighlight": false,
+        "groupWidth": 0.84,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": false
+        },
+        "orientation": "vertical",
+        "showValue": "never",
+        "stacking": "normal",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        },
+        "xField": "date",
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "/*DATA PRESENTER QUERY\r\n \r\n This part will select all real measurements connected to the displayed view. The result will be used for any needed calculation.\r\n */\r\n--Select a real node or if the selected node is virtual, select all it's real supply nodes\r\nWITH RECURSIVE params AS (\r\n  SELECT\r\n    n.id AS node_id\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n),\r\n-- The recursive CTE to find all REAL supplier nodes through a downward traversal\r\nreal_suppliers AS (\r\n  -- Anchor: The selected node to start the traversal\r\n  SELECT\r\n    n.id,\r\n    n.type,\r\n    n.title,\r\n    0 AS level,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN params p ON n.id = p.node_id\r\n  UNION\r\n  ALL -- Recursive part: Find the children of the current set of nodes\r\n  SELECT\r\n    c.id,\r\n    c.type,\r\n    c.title,\r\n    rs.level + 1 AS level,\r\n    rs.path || c.id AS path\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n    AND c.id <> ALL(rs.path) -- Cycle detection\r\n),\r\n--If a node is a remainder, find all it's siblings and prepare a recipe for calculating the consumption.\r\nparent_params AS(\r\n  SELECT\r\n    e.parent_id\r\n  FROM\r\n    datapresenter.edges e\r\n  WHERE\r\n    e.child_id = (\r\n      SELECT\r\n        node_id\r\n      FROM\r\n        params\r\n    )\r\n    AND e.edge_type :: TEXT = 'remainder'\r\n),\r\n-- The universal recursive CTE to find all REAL descendants, preserving the original child's context\r\nchild_recipes AS (\r\n  -- Anchor: The direct children of the parent\r\n  SELECT\r\n    n.id AS node_id,\r\n    n.type AS node_type,\r\n    n.title AS node_name,\r\n    n.measurement_name,\r\n    e.child_id AS top_child_id,\r\n    e.edge_type AS top_child_edge_type,\r\n    n.title AS top_child_name,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.edges e ON n.id = e.child_id\r\n  WHERE\r\n    e.parent_id = (\r\n      SELECT\r\n        parent_id\r\n      FROM\r\n        parent_params\r\n    ) -- We filter the anchor to not include the residual node itself, as its recipe is different\r\n    AND e.edge_type :: TEXT <> 'remainder'\r\n  UNION\r\n  ALL -- Recursive part: Find the suppliers for the current virtual nodes\r\n  SELECT\r\n    c.id AS node_id,\r\n    c.type AS node_type,\r\n    c.title AS node_name,\r\n    c.measurement_name,\r\n    cr.top_child_id,\r\n    cr.top_child_edge_type,\r\n    cr.top_child_name,\r\n    cr.path || c.id AS path\r\n  FROM\r\n    child_recipes cr\r\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    cr.node_type :: TEXT <> 'real' -- Stop when we hit a REAL node\r\n    AND c.id <> ALL(cr.path) -- Cycle detection\r\n    -- Only traverse 'supply' and 'aggregate' edges\r\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n),\r\n-- Final recipe for calculating of the consumption.\r\nnode_list AS (\r\n  -- Real or virtual node selected\r\n  -- Final SELECT to get the real nodes found in the traversal, all with a +1 sign\r\n  SELECT\r\n    DISTINCT n.id AS real_node_id,\r\n    n.title AS node_name,\r\n    n.measurement_name AS measurement,\r\n    + 1 AS sign\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.nodes n ON rs.id = n.id\r\n  WHERE\r\n    n.type :: TEXT = 'real'\r\n  UNION\r\n  ALL --Residual node selected\r\n  SELECT\r\n    cr.node_id AS node_id,\r\n    cr.node_name AS node_name,\r\n    cr.measurement_name AS measurement,\r\n    -- The sign is determined by the top-level edge type for the parent\r\n    CASE\r\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\r\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\r\n      ELSE 0\r\n    END AS sign\r\n  FROM\r\n    child_recipes cr\r\n    JOIN (\r\n      SELECT\r\n        id AS residual_id,\r\n        title AS residual_name\r\n      FROM\r\n        datapresenter.nodes\r\n      WHERE\r\n        id = (\r\n          SELECT\r\n            node_id\r\n          FROM\r\n            params\r\n        )\r\n        AND type :: TEXT = 'residual'\r\n    ) ri ON TRUE\r\n  WHERE\r\n    cr.node_type :: TEXT = 'real'\r\n),\r\n/*\r\n \r\n DATA PRESENTER PART END\r\n Recipe (measurement names) to calculate the selected node's data is in the node_list CTE.\r\n \r\n You are free to query any data based on this list from this point,\r\n \r\n ***DATA QUERY PART START***\r\n */\r\ntime_selector AS (\r\n  SELECT\r\n    '${selectedYear}-${selectedMonth}-01 00:00:00 Europe/Berlin' :: timestamptz - INTERVAL '10 hours' AS startTime\r\n),\r\nvariables AS (\r\n  SELECT\r\n    ${selectedYear} AS startYear,\r\n    ${selectedMonth} AS startMonth\r\n),\r\nraw_data AS (\r\n  SELECT\r\n    time_bucket_gapfill('1 hour', timestamp) AS timestamp,\r\n    measurement,\r\n    interpolate(MAX(heat_energy_total)) AS heat_energy_total\r\n  FROM\r\n    heat_energy_hourly,\r\n    time_selector ts\r\n  WHERE\r\n    measurement IN (\r\n      SELECT\r\n        measurement\r\n      FROM\r\n        node_list\r\n    )\r\n    AND timestamp >= ts.startTime\r\n    AND timestamp <= ts.startTime + INTERVAL '1 month' + INTERVAL '5 days'\r\n  GROUP BY\r\n    time_bucket_gapfill('1 hour', timestamp),\r\n    measurement\r\n),\r\nconsumption_data AS (\r\n  SELECT\r\n    timestamp,\r\n    measurement,\r\n    heat_energy_total - LAG(heat_energy_total) OVER (\r\n      PARTITION BY measurement\r\n      ORDER BY\r\n        timestamp\r\n    ) AS Consumption,\r\n    EXTRACT(\r\n      MONTH\r\n      FROM\r\n        timestamp AT TIME ZONE 'Europe/Berlin'\r\n    ) AS rowMonth\r\n  FROM\r\n    raw_data\r\n),\r\nsigned_consumption_data AS (\r\n  SELECT\r\n    c.timestamp,\r\n    c.measurement,\r\n    m.node_name,\r\n    m.sign,\r\n    c.consumption * m.sign AS consumption,\r\n    c.rowMonth\r\n  FROM\r\n    consumption_data c\r\n    JOIN node_list m ON m.measurement = c.measurement\r\n),\r\nmonthly_data AS (\r\n  SELECT\r\n    timestamp AS stamp,\r\n    SUM(Consumption) AS Consumption\r\n  FROM\r\n    signed_consumption_data,\r\n    variables v\r\n  WHERE\r\n    rowMonth = v.startMonth\r\n  GROUP BY\r\n    timestamp\r\n)\r\nSELECT\r\n  TO_CHAR(stamp AT TIME ZONE 'Europe/Berlin', 'DD. MM.') AS Date,\r\n  stamp AT TIME ZONE 'Europe/Berlin' AS _time,\r\n  CASE\r\n    WHEN Consumption < 0 THEN 0\r\n    ELSE Consumption\r\n  END\r\nFROM\r\n  monthly_data\r\nORDER BY\r\n  stamp ASC",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "/* DATA PRESENTER PART START\n*/\nWITH RECURSIVE params AS (\n  SELECT\n    n.id AS node_id\n  FROM\n    datapresenter.nodes n\n    JOIN datapresenter.views v ON n.id = v.main_node_id\n    AND v.id = ${view} \n),\nreal_suppliers AS (\n  SELECT\n    n.id,\n    n.type,\n    n.title,\n    0 AS level,\n    ARRAY [n.id] AS path\n  FROM\n    datapresenter.nodes n\n    JOIN params p ON n.id = p.node_id\n  UNION\n  ALL\n  SELECT\n    c.id,\n    c.type,\n    c.title,\n    rs.level + 1 AS level,\n    rs.path || c.id AS path\n  FROM\n    real_suppliers rs\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\n    JOIN datapresenter.nodes c ON e.child_id = c.id\n  WHERE\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\n    AND c.id <> ALL(rs.path)\n),\nparent_params AS(\n  SELECT\n    e.parent_id\n  FROM\n    datapresenter.edges e\n  WHERE\n    e.child_id = (SELECT node_id FROM params)\n    AND e.edge_type :: TEXT = 'remainder'\n),\nchild_recipes AS (\n  SELECT\n    n.id AS node_id,\n    n.type AS node_type,\n    n.title AS node_name,\n    n.measurement_name,\n    e.child_id AS top_child_id,\n    e.edge_type AS top_child_edge_type,\n    n.title AS top_child_name,\n    ARRAY [n.id] AS path\n  FROM\n    datapresenter.nodes n\n    JOIN datapresenter.edges e ON n.id = e.child_id\n  WHERE\n    e.parent_id = (SELECT parent_id FROM parent_params)\n    AND e.edge_type :: TEXT <> 'remainder'\n  UNION\n  ALL\n  SELECT\n    c.id AS node_id,\n    c.type AS node_type,\n    c.title AS node_name,\n    c.measurement_name,\n    cr.top_child_id,\n    cr.top_child_edge_type,\n    cr.top_child_name,\n    cr.path || c.id AS path\n  FROM\n    child_recipes cr\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\n    JOIN datapresenter.nodes c ON e.child_id = c.id\n  WHERE\n    cr.node_type :: TEXT <> 'real'\n    AND c.id <> ALL(cr.path)\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\n),\nnode_list AS (\n  SELECT\n    DISTINCT n.id AS real_node_id,\n    n.title AS node_name,\n    n.measurement_name AS measurement,\n    + 1 AS sign\n  FROM\n    real_suppliers rs\n    JOIN datapresenter.nodes n ON rs.id = n.id\n  WHERE\n    n.type :: TEXT = 'real'\n  UNION\n  ALL\n  SELECT\n    cr.node_id AS node_id,\n    cr.node_name AS node_name,\n    cr.measurement_name AS measurement,\n    CASE\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\n      ELSE 0\n    END AS sign\n  FROM\n    child_recipes cr\n    JOIN (\n      SELECT\n        id AS residual_id,\n        title AS residual_name\n      FROM\n        datapresenter.nodes\n      WHERE\n        id = (SELECT node_id FROM params)\n        AND type :: TEXT = 'residual'\n    ) ri ON TRUE\n  WHERE\n    cr.node_type :: TEXT = 'real'\n),\n/* DATA PRESENTER PART END\n  \n  FORECAST LOGIC PART START\n*/\ntime_selector AS (\n  SELECT\n    ('${selectedYear}-${selectedMonth}-01 00:00:00 Europe/Berlin')::timestamptz AS month_start,\n    (('${selectedYear}-${selectedMonth}-01 00:00:00 Europe/Berlin')::timestamptz + INTERVAL '1 month')::timestamptz AS next_month_start,\n    ('${selectedYear}-${selectedMonth}-01 00:00:00 Europe/Berlin')::timestamptz - INTERVAL '2 months' AS avg_period_start\n),\nraw_data AS (\n  SELECT\n    time_bucket('1 hour', timestamp) AS timestamp_hour,\n    measurement,\n    MAX(heat_energy_total) AS heat_energy_total\n  FROM\n    heat_energy_hourly, time_selector ts \n  WHERE\n    timestamp >= ts.avg_period_start\n    AND timestamp < ts.next_month_start + INTERVAL '3 days'\n    AND measurement IN (SELECT measurement FROM node_list) \n  GROUP BY\n    timestamp_hour, measurement\n),\nconsumption_data AS (\n  SELECT\n    timestamp_hour,\n    measurement,\n    COALESCE(\n      heat_energy_total - LAG(heat_energy_total) OVER (PARTITION BY measurement ORDER BY timestamp_hour),\n      0\n    ) AS Consumption\n  FROM\n    raw_data\n),\nsigned_consumption_data AS (\n  SELECT\n    cd.timestamp_hour,\n    cd.Consumption * nl.sign AS Consumption\n  FROM\n    consumption_data cd\n  JOIN node_list nl ON cd.measurement = nl.measurement\n),\nfull_hourly_consumption AS (\n  SELECT\n    timestamp_hour AS stamp,\n    SUM(CASE WHEN Consumption < 0 THEN 0 ELSE Consumption END) AS Consumption\n  FROM\n    signed_consumption_data\n  GROUP BY\n    timestamp_hour\n),\nselected_month_actual_hourly AS (\n  SELECT\n    stamp,\n    Consumption\n  FROM\n    full_hourly_consumption, time_selector ts\n  WHERE\n    stamp >= ts.month_start\n    AND stamp < ts.next_month_start\n),\nlast_actual_data AS (\n  SELECT\n    MAX(stamp) AS last_stamp\n  FROM\n    selected_month_actual_hourly\n),\nhistorical_avg_dow_hour AS (\n  SELECT\n    EXTRACT(DOW FROM fhc.stamp AT TIME ZONE 'Europe/Berlin') AS day_of_week,\n    EXTRACT(HOUR FROM fhc.stamp AT TIME ZONE 'Europe/Berlin') AS hour_of_day,\n    AVG(fhc.Consumption) AS avg_consumption\n  FROM\n    full_hourly_consumption fhc,\n    last_actual_data lad,\n    time_selector ts\n  WHERE\n    (lad.last_stamp IS NOT NULL AND fhc.stamp <= lad.last_stamp)\n    OR (lad.last_stamp IS NULL AND fhc.stamp < ts.month_start)\n  GROUP BY\n    day_of_week,\n    hour_of_day\n  HAVING\n    AVG(fhc.Consumption) >= 0\n),\nmonth_timestamps AS (\n  SELECT\n    generate_series(\n      ts.month_start,\n      ts.next_month_start - INTERVAL '1 hour',\n      '1 hour'\n    ) AS stamp\n  FROM\n    time_selector ts\n),\nfull_month_forecast_hourly AS (\n  SELECT\n    mt.stamp,\n    COALESCE(hist_avg.avg_consumption, 0) AS forecast_consumption\n  FROM\n    month_timestamps mt\n  LEFT JOIN\n    historical_avg_dow_hour hist_avg ON\n      EXTRACT(DOW FROM mt.stamp AT TIME ZONE 'Europe/Berlin') = hist_avg.day_of_week\n      AND EXTRACT(HOUR FROM mt.stamp AT TIME ZONE 'Europe/Berlin') = hist_avg.hour_of_day\n),\ncombined_hourly_data AS (\n  SELECT\n    fmfc.stamp,\n    COALESCE(sma.Consumption, fmfc.forecast_consumption) AS Consumption,\n    CASE\n      WHEN sma.stamp IS NOT NULL THEN 'Actual'\n      WHEN fmfc.stamp > COALESCE(lad.last_stamp, ts.month_start - INTERVAL '1 second') THEN 'Forecast'\n      ELSE 'Actual'\n    END AS data_type\n  FROM\n    full_month_forecast_hourly fmfc\n  LEFT JOIN\n    selected_month_actual_hourly sma ON fmfc.stamp = sma.stamp\n  CROSS JOIN\n    last_actual_data lad\n  CROSS JOIN\n    time_selector ts\n)\nSELECT\n  TO_CHAR(chd.stamp AT TIME ZONE 'Europe/Berlin', 'DD. MM.') AS \"Date\",\n  chd.stamp AT TIME ZONE 'Europe/Berlin' AS _time,\n  CASE\n    WHEN chd.data_type = 'Actual' THEN CASE WHEN chd.Consumption < 0 THEN 0 ELSE chd.Consumption END\n    ELSE NULL\n  END AS \"Actual\",\n  CASE\n    WHEN chd.data_type = 'Forecast' THEN CASE WHEN chd.Consumption < 0 THEN 0 ELSE chd.Consumption END\n    ELSE NULL\n  END AS \"Forecast\"\nFROM\n  combined_hourly_data chd\n  CROSS JOIN last_actual_data lad\n  CROSS JOIN time_selector ts\nWHERE\n  chd.data_type = 'Actual'\n  OR (\n    chd.data_type = 'Forecast'\n    AND chd.stamp < (\n      DATE_TRUNC('day', COALESCE(lad.last_stamp, ts.month_start) AT TIME ZONE 'Europe/Berlin')\n      + INTERVAL '4 days' - INTERVAL '3 hours'\n    )\n  )\nORDER BY\n  _time ASC;",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Monthly consumption",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Date": {
+                "aggregations": []
+              },
+              "Forecast": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "consumption": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "date": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "monthly_consumption (sum)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Monthly price"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "daily_consumption (sum)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Dnešná spotreba"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 20,
+        "y": 14
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "inverted",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": true,
+        "text": {
+          "titleSize": 20,
+          "valueSize": 30
+        },
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "/*DATA PRESENTER QUERY\r\n \r\n This part will select all real measurements connected to the displayed view. The result will be used for any needed calculation.\r\n */\r\n--Select a real node or if the selected node is virtual, select all it's real supply nodes\r\nWITH RECURSIVE params AS (\r\n  SELECT\r\n    n.id AS node_id\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n),\r\n-- The recursive CTE to find all REAL supplier nodes through a downward traversal\r\nreal_suppliers AS (\r\n  -- Anchor: The selected node to start the traversal\r\n  SELECT\r\n    n.id,\r\n    n.type,\r\n    n.title,\r\n    0 AS level,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN params p ON n.id = p.node_id\r\n  UNION\r\n  ALL -- Recursive part: Find the children of the current set of nodes\r\n  SELECT\r\n    c.id,\r\n    c.type,\r\n    c.title,\r\n    rs.level + 1 AS level,\r\n    rs.path || c.id AS path\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n    AND c.id <> ALL(rs.path) -- Cycle detection\r\n),\r\n--If a node is a remainder, find all it's siblings and prepare a recipe for calculating the consumption.\r\nparent_params AS(\r\n  SELECT\r\n    e.parent_id\r\n  FROM\r\n    datapresenter.edges e\r\n  WHERE\r\n    e.child_id = (\r\n      SELECT\r\n        node_id\r\n      FROM\r\n        params\r\n    )\r\n    AND e.edge_type :: TEXT = 'remainder'\r\n),\r\n-- The universal recursive CTE to find all REAL descendants, preserving the original child's context\r\nchild_recipes AS (\r\n  -- Anchor: The direct children of the parent\r\n  SELECT\r\n    n.id AS node_id,\r\n    n.type AS node_type,\r\n    n.title AS node_name,\r\n    n.measurement_name,\r\n    e.child_id AS top_child_id,\r\n    e.edge_type AS top_child_edge_type,\r\n    n.title AS top_child_name,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.edges e ON n.id = e.child_id\r\n  WHERE\r\n    e.parent_id = (\r\n      SELECT\r\n        parent_id\r\n      FROM\r\n        parent_params\r\n    ) -- We filter the anchor to not include the residual node itself, as its recipe is different\r\n    AND e.edge_type :: TEXT <> 'remainder'\r\n  UNION\r\n  ALL -- Recursive part: Find the suppliers for the current virtual nodes\r\n  SELECT\r\n    c.id AS node_id,\r\n    c.type AS node_type,\r\n    c.title AS node_name,\r\n    c.measurement_name,\r\n    cr.top_child_id,\r\n    cr.top_child_edge_type,\r\n    cr.top_child_name,\r\n    cr.path || c.id AS path\r\n  FROM\r\n    child_recipes cr\r\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    cr.node_type :: TEXT <> 'real' -- Stop when we hit a REAL node\r\n    AND c.id <> ALL(cr.path) -- Cycle detection\r\n    -- Only traverse 'supply' and 'aggregate' edges\r\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n),\r\n-- Final recipe for calculating of the consumption.\r\nnode_list AS (\r\n  -- Real or virtual node selected\r\n  -- Final SELECT to get the real nodes found in the traversal, all with a +1 sign\r\n  SELECT\r\n    DISTINCT n.id AS real_node_id,\r\n    n.title AS node_name,\r\n    n.measurement_name AS measurement,\r\n    + 1 AS sign\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.nodes n ON rs.id = n.id\r\n  WHERE\r\n    n.type :: TEXT = 'real'\r\n  UNION\r\n  ALL --Residual node selected\r\n  SELECT\r\n    cr.node_id AS node_id,\r\n    cr.node_name AS node_name,\r\n    cr.measurement_name AS measurement,\r\n    -- The sign is determined by the top-level edge type for the parent\r\n    CASE\r\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\r\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\r\n      ELSE 0\r\n    END AS sign\r\n  FROM\r\n    child_recipes cr\r\n    JOIN (\r\n      SELECT\r\n        id AS residual_id,\r\n        title AS residual_name\r\n      FROM\r\n        datapresenter.nodes\r\n      WHERE\r\n        id = (\r\n          SELECT\r\n            node_id\r\n          FROM\r\n            params\r\n        )\r\n        AND type :: TEXT = 'residual'\r\n    ) ri ON TRUE\r\n  WHERE\r\n    cr.node_type :: TEXT = 'real'\r\n),\r\n/*\r\n \r\n DATA PRESENTER PART END\r\n Recipe (measurement names) to calculate the selected node's data is in the node_list CTE.\r\n \r\n You are free to query any data based on this list from this point,\r\n \r\n ***DATA QUERY PART START***\r\n */\r\nmid AS (\r\n  SELECT\r\n    (\r\n      SELECT\r\n        MAX(timestamp) AT TIME ZONE 'Europe/Berlin'\r\n      FROM\r\n        public.electrometers\r\n      WHERE\r\n        timestamp BETWEEN '${selectedYear}-${selectedMonth}-01 00:00:00 Europe/Berlin' :: timestamptz\r\n        AND '${selectedYear}-${selectedMonth}-01 00:00:00 Europe/Berlin' :: timestamptz + INTERVAL '1 month, 5 days'\r\n    ) AS midTime\r\n),\r\ntime_selector AS (\r\n  SELECT\r\n    '${selectedYear}-${selectedMonth}-01 00:00:00 Europe/Berlin' :: timestamptz - INTERVAL '1 month, 2 days' AS startTime,\r\n    '${selectedYear}-${selectedMonth}-01 00:00:00 Europe/Berlin' :: timestamptz + INTERVAL '1 month, 5 days' AS endTime\r\n),\r\nvariables AS (\r\n  SELECT\r\n    ${selectedYear} AS startYear,\r\n    ${selectedMonth} AS startMonth,\r\n    EXTRACT(\r\n      DAY\r\n      FROM\r\n        (ts.midTime - INTERVAL '1 month') AT TIME ZONE 'Europe/Berlin'\r\n    ) AS midLastDay,\r\n    EXTRACT(\r\n      MONTH\r\n      FROM\r\n        (ts.midTime - INTERVAL '1 month') AT TIME ZONE 'Europe/Berlin'\r\n    ) AS midLastMonth\r\n  FROM\r\n    mid ts\r\n),\r\nraw_data AS (\r\n  SELECT\r\n    time_bucket_gapfill(\r\n      '1 hour',\r\n      timestamp,\r\n      'Europe/Berlin',\r\n      ts.startTime,\r\n      ts.endTime\r\n    ) AS timestamp,\r\n    measurement,\r\n    interpolate(MAX(heat_energy_total)) AS heat_energy_total\r\n  FROM\r\n    heat_energy_hourly,\r\n    time_selector ts\r\n  WHERE\r\n    measurement IN (\r\n      SELECT\r\n        measurement\r\n      FROM\r\n        node_list\r\n    )\r\n    AND timestamp >= ts.startTime\r\n    AND timestamp <= ts.endTime\r\n  GROUP BY\r\n    time_bucket_gapfill(\r\n      '1 hour',\r\n      timestamp,\r\n      'Europe/Berlin',\r\n      ts.startTime,\r\n      ts.endTime\r\n    ),\r\n    measurement\r\n),\r\nconsumption_data AS (\r\n  SELECT\r\n    timestamp,\r\n    measurement,\r\n    EXTRACT(\r\n      MONTH\r\n      FROM\r\n        (timestamp) AT TIME ZONE 'Europe/Berlin'\r\n    ) AS filterMonth,\r\n    EXTRACT(\r\n      DAY\r\n      FROM\r\n        (timestamp) AT TIME ZONE 'Europe/Berlin'\r\n    ) AS filterDay,\r\n    heat_energy_total - LAG(heat_energy_total) OVER (\r\n      PARTITION BY measurement\r\n      ORDER BY\r\n        timestamp\r\n    ) AS Consumption\r\n  FROM\r\n    raw_data\r\n),\r\nsigned_consumption_data AS (\r\n  SELECT\r\n    c.timestamp,\r\n    c.measurement,\r\n    n.node_name,\r\n    n.sign,\r\n    c.consumption * n.sign AS consumption,\r\n    c.filterMonth,\r\n    c.filterDay\r\n  FROM\r\n    consumption_data c\r\n    JOIN node_list n ON c.measurement = n.measurement\r\n),\r\ncombined_data AS (\r\n  SELECT\r\n    timestamp,\r\n    MAX(filterMonth) AS filter_month,\r\n    MAX(filterDay) AS filter_day,\r\n    SUM(Consumption) AS Consumption\r\n  FROM\r\n    signed_consumption_data\r\n  GROUP BY\r\n    timestamp\r\n),\r\nfiltered_data AS (\r\n  SELECT\r\n    timestamp,\r\n    filter_month,\r\n    CASE\r\n      WHEN filter_month = startMonth\r\n      OR (\r\n        filter_month = midLastMonth\r\n        AND filter_day <= midLastDay\r\n      ) THEN Consumption\r\n      ELSE 0\r\n    END AS monthly_Consumption\r\n  FROM\r\n    combined_data,\r\n    variables\r\n  WHERE\r\n    filter_month = startMonth\r\n    OR filter_month = midLastMonth\r\n  ORDER BY\r\n    timestamp ASC\r\n)\r\nSELECT\r\n  *\r\nFROM\r\n  filtered_data",
+          "refId": "monthly",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "transformations": [
+        {
+          "filter": {
+            "id": "byRefId",
+            "options": "monthly"
+          },
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "consumption": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "daily_consumption": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "filter_month": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "monthly_consumption": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "timestamp": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          },
+          "topic": "series"
+        },
+        {
+          "filter": {
+            "id": "byRefId",
+            "options": "daily"
+          },
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "_time": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "daily_consumption": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "filter_day": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          },
+          "topic": "series"
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "timestamp (lastNotNull)",
+                "monthly_consumption (sum)",
+                "_time (lastNotNull)",
+                "daily_consumption (sum)"
+              ]
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "monthly_consumption (sum)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Mesačná spotreba"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "daily_consumption (sum)"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Today consumption"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 20,
+        "y": 20
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "inverted",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": true,
+        "text": {
+          "titleSize": 20,
+          "valueSize": 30
+        },
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "/*DATA PRESENTER QUERY\r\n \r\n This part will select all real measurements connected to the displayed view. The result will be used for any needed calculation.\r\n */\r\n--Select a real node or if the selected node is virtual, select all it's real supply nodes\r\nWITH RECURSIVE params AS (\r\n  SELECT\r\n    n.id AS node_id\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n),\r\n-- The recursive CTE to find all REAL supplier nodes through a downward traversal\r\nreal_suppliers AS (\r\n  -- Anchor: The selected node to start the traversal\r\n  SELECT\r\n    n.id,\r\n    n.type,\r\n    n.title,\r\n    0 AS level,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN params p ON n.id = p.node_id\r\n  UNION\r\n  ALL -- Recursive part: Find the children of the current set of nodes\r\n  SELECT\r\n    c.id,\r\n    c.type,\r\n    c.title,\r\n    rs.level + 1 AS level,\r\n    rs.path || c.id AS path\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n    AND c.id <> ALL(rs.path) -- Cycle detection\r\n),\r\n--If a node is a remainder, find all it's siblings and prepare a recipe for calculating the consumption.\r\nparent_params AS(\r\n  SELECT\r\n    e.parent_id\r\n  FROM\r\n    datapresenter.edges e\r\n  WHERE\r\n    e.child_id = (\r\n      SELECT\r\n        node_id\r\n      FROM\r\n        params\r\n    )\r\n    AND e.edge_type :: TEXT = 'remainder'\r\n),\r\n-- The universal recursive CTE to find all REAL descendants, preserving the original child's context\r\nchild_recipes AS (\r\n  -- Anchor: The direct children of the parent\r\n  SELECT\r\n    n.id AS node_id,\r\n    n.type AS node_type,\r\n    n.title AS node_name,\r\n    n.measurement_name,\r\n    e.child_id AS top_child_id,\r\n    e.edge_type AS top_child_edge_type,\r\n    n.title AS top_child_name,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.edges e ON n.id = e.child_id\r\n  WHERE\r\n    e.parent_id = (\r\n      SELECT\r\n        parent_id\r\n      FROM\r\n        parent_params\r\n    ) -- We filter the anchor to not include the residual node itself, as its recipe is different\r\n    AND e.edge_type :: TEXT <> 'remainder'\r\n  UNION\r\n  ALL -- Recursive part: Find the suppliers for the current virtual nodes\r\n  SELECT\r\n    c.id AS node_id,\r\n    c.type AS node_type,\r\n    c.title AS node_name,\r\n    c.measurement_name,\r\n    cr.top_child_id,\r\n    cr.top_child_edge_type,\r\n    cr.top_child_name,\r\n    cr.path || c.id AS path\r\n  FROM\r\n    child_recipes cr\r\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    cr.node_type :: TEXT <> 'real' -- Stop when we hit a REAL node\r\n    AND c.id <> ALL(cr.path) -- Cycle detection\r\n    -- Only traverse 'supply' and 'aggregate' edges\r\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n),\r\n-- Final recipe for calculating of the consumption.\r\nnode_list AS (\r\n  -- Real or virtual node selected\r\n  -- Final SELECT to get the real nodes found in the traversal, all with a +1 sign\r\n  SELECT\r\n    DISTINCT n.id AS real_node_id,\r\n    n.title AS node_name,\r\n    n.measurement_name AS measurement,\r\n    + 1 AS sign\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.nodes n ON rs.id = n.id\r\n  WHERE\r\n    n.type :: TEXT = 'real'\r\n  UNION\r\n  ALL --Residual node selected\r\n  SELECT\r\n    cr.node_id AS node_id,\r\n    cr.node_name AS node_name,\r\n    cr.measurement_name AS measurement,\r\n    -- The sign is determined by the top-level edge type for the parent\r\n    CASE\r\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\r\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\r\n      ELSE 0\r\n    END AS sign\r\n  FROM\r\n    child_recipes cr\r\n    JOIN (\r\n      SELECT\r\n        id AS residual_id,\r\n        title AS residual_name\r\n      FROM\r\n        datapresenter.nodes\r\n      WHERE\r\n        id = (\r\n          SELECT\r\n            node_id\r\n          FROM\r\n            params\r\n        )\r\n        AND type :: TEXT = 'residual'\r\n    ) ri ON TRUE\r\n  WHERE\r\n    cr.node_type :: TEXT = 'real'\r\n),\r\n/*\r\n \r\n DATA PRESENTER PART END\r\n Recipe (measurement names) to calculate the selected node's data is in the node_list CTE.\r\n \r\n You are free to query any data based on this list from this point,\r\n \r\n ***DATA QUERY PART START***\r\n */\r\nvariables AS (\r\n  SELECT\r\n    EXTRACT(\r\n      DAY\r\n      FROM\r\n        (NOW() - INTERVAL '1 day') AT TIME ZONE 'Europe/Berlin'\r\n    ) AS yesterday,\r\n    EXTRACT(\r\n      DAY\r\n      FROM\r\n        NOW() AT TIME ZONE 'Europe/Berlin'\r\n    ) AS today\r\n),\r\nraw_data AS (\r\n  SELECT\r\n    time_bucket_gapfill('1 hour' :: INTERVAL, timestamp) AS hourly_bucket,\r\n    measurement,\r\n    interpolate(MAX(heat_energy_total)) AS heat_energy_total\r\n  FROM\r\n    heat_energy_hourly\r\n  WHERE\r\n    measurement IN (\r\n      SELECT\r\n        measurement\r\n      FROM\r\n        node_list\r\n    )\r\n    AND timestamp BETWEEN NOW() - INTERVAL '2 days'\r\n    AND NOW()\r\n  GROUP BY\r\n    time_bucket_gapfill('1 hour' :: INTERVAL, timestamp),\r\n    measurement\r\n),\r\nraw_consumption AS (\r\n  SELECT\r\n    hourly_bucket,\r\n    measurement,\r\n    EXTRACT(\r\n      DAY\r\n      FROM\r\n        hourly_bucket AT TIME ZONE 'Europe/Berlin'\r\n    ) AS filter_day,\r\n    heat_energy_total - LAG(heat_energy_total) OVER (\r\n      PARTITION BY measurement\r\n      ORDER BY\r\n        hourly_bucket\r\n    ) AS Consumption\r\n  FROM\r\n    raw_data\r\n),\r\nsigned_consumption AS (\r\n  SELECT\r\n    c.hourly_bucket,\r\n    c.measurement,\r\n    n.node_name,\r\n    n.sign,\r\n    c.consumption * n.sign AS consumption,\r\n    c.filter_day\r\n  FROM\r\n    raw_consumption c\r\n    JOIN node_list n ON c.measurement = n.measurement\r\n),\r\ncombined_consumption AS (\r\n  SELECT\r\n    hourly_bucket,\r\n    MAX(filter_day) AS filter_day,\r\n    SUM(Consumption) AS Consumption\r\n  FROM\r\n    signed_consumption\r\n  GROUP BY\r\n    hourly_bucket\r\n),\r\nfiltered_consumption AS (\r\n  SELECT\r\n    hourly_bucket AS _time,\r\n    CASE\r\n      WHEN (\r\n        filter_day = today\r\n        AND hourly_bucket <= NOW()\r\n      )\r\n      OR (\r\n        filter_day = yesterday\r\n        AND hourly_bucket <= NOW() - INTERVAL '1 day'\r\n      ) THEN Consumption\r\n      ELSE 0\r\n    END AS daily_consumption,\r\n    filter_day\r\n  FROM\r\n    combined_consumption,\r\n    variables\r\n  WHERE\r\n    filter_day = today\r\n    OR filter_day = yesterday\r\n  ORDER BY\r\n    hourly_bucket\r\n)\r\nSELECT\r\n  *\r\nFROM\r\n  filtered_consumption",
+          "refId": "daily",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "transformations": [
+        {
+          "filter": {
+            "id": "byRefId",
+            "options": "monthly"
+          },
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "consumption": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "daily_consumption": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "filter_month": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "monthly_consumption": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "timestamp": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          },
+          "topic": "series"
+        },
+        {
+          "filter": {
+            "id": "byRefId",
+            "options": "daily"
+          },
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "_time": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "daily_consumption": {
+                "aggregations": [
+                  "sum"
+                ],
+                "operation": "aggregate"
+              },
+              "filter_day": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          },
+          "topic": "series"
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "timestamp (lastNotNull)",
+                "monthly_consumption (sum)",
+                "_time (lastNotNull)",
+                "daily_consumption (sum)"
+              ]
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 30,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "displayName": "Heat consumption",
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-yellow"
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "_price"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                }
+              },
+              {
+                "id": "displayName",
+                "value": "Cena spotr. el."
+              },
+              {
+                "id": "unit",
+                "value": "currencyEUR"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    0,
+                    10
+                  ],
+                  "fill": "dot"
+                }
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "price_per_kwh"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
+              },
+              {
+                "id": "max",
+                "value": 0.5
+              },
+              {
+                "id": "displayName",
+                "value": "OKTE Cena"
+              },
+              {
+                "id": "unit",
+                "value": "€/kWh"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 20,
+        "x": 0,
+        "y": 26
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "/*DATA PRESENTER QUERY\r\n \r\n This part will select all real measurements connected to the displayed view. The result will be used for any needed calculation.\r\n */\r\n--Select a real node or if the selected node is virtual, select all it's real supply nodes\r\nWITH RECURSIVE params AS (\r\n  SELECT\r\n    n.id AS node_id\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n),\r\n-- The recursive CTE to find all REAL supplier nodes through a downward traversal\r\nreal_suppliers AS (\r\n  -- Anchor: The selected node to start the traversal\r\n  SELECT\r\n    n.id,\r\n    n.type,\r\n    n.title,\r\n    0 AS level,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN params p ON n.id = p.node_id\r\n  UNION\r\n  ALL -- Recursive part: Find the children of the current set of nodes\r\n  SELECT\r\n    c.id,\r\n    c.type,\r\n    c.title,\r\n    rs.level + 1 AS level,\r\n    rs.path || c.id AS path\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n    AND c.id <> ALL(rs.path) -- Cycle detection\r\n),\r\n--If a node is a remainder, find all it's siblings and prepare a recipe for calculating the consumption.\r\nparent_params AS(\r\n  SELECT\r\n    e.parent_id\r\n  FROM\r\n    datapresenter.edges e\r\n  WHERE\r\n    e.child_id = (\r\n      SELECT\r\n        node_id\r\n      FROM\r\n        params\r\n    )\r\n    AND e.edge_type :: TEXT = 'remainder'\r\n),\r\n-- The universal recursive CTE to find all REAL descendants, preserving the original child's context\r\nchild_recipes AS (\r\n  -- Anchor: The direct children of the parent\r\n  SELECT\r\n    n.id AS node_id,\r\n    n.type AS node_type,\r\n    n.title AS node_name,\r\n    n.measurement_name,\r\n    e.child_id AS top_child_id,\r\n    e.edge_type AS top_child_edge_type,\r\n    n.title AS top_child_name,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.edges e ON n.id = e.child_id\r\n  WHERE\r\n    e.parent_id = (\r\n      SELECT\r\n        parent_id\r\n      FROM\r\n        parent_params\r\n    ) -- We filter the anchor to not include the residual node itself, as its recipe is different\r\n    AND e.edge_type :: TEXT <> 'remainder'\r\n  UNION\r\n  ALL -- Recursive part: Find the suppliers for the current virtual nodes\r\n  SELECT\r\n    c.id AS node_id,\r\n    c.type AS node_type,\r\n    c.title AS node_name,\r\n    c.measurement_name,\r\n    cr.top_child_id,\r\n    cr.top_child_edge_type,\r\n    cr.top_child_name,\r\n    cr.path || c.id AS path\r\n  FROM\r\n    child_recipes cr\r\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    cr.node_type :: TEXT <> 'real' -- Stop when we hit a REAL node\r\n    AND c.id <> ALL(cr.path) -- Cycle detection\r\n    -- Only traverse 'supply' and 'aggregate' edges\r\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n),\r\n-- Final recipe for calculating of the consumption.\r\nnode_list AS (\r\n  -- Real or virtual node selected\r\n  -- Final SELECT to get the real nodes found in the traversal, all with a +1 sign\r\n  SELECT\r\n    DISTINCT n.id AS real_node_id,\r\n    n.title AS node_name,\r\n    n.measurement_name AS measurement,\r\n    + 1 AS sign\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.nodes n ON rs.id = n.id\r\n  WHERE\r\n    n.type :: TEXT = 'real'\r\n  UNION\r\n  ALL --Residual node selected\r\n  SELECT\r\n    cr.node_id AS node_id,\r\n    cr.node_name AS node_name,\r\n    cr.measurement_name AS measurement,\r\n    -- The sign is determined by the top-level edge type for the parent\r\n    CASE\r\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\r\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\r\n      ELSE 0\r\n    END AS sign\r\n  FROM\r\n    child_recipes cr\r\n    JOIN (\r\n      SELECT\r\n        id AS residual_id,\r\n        title AS residual_name\r\n      FROM\r\n        datapresenter.nodes\r\n      WHERE\r\n        id = (\r\n          SELECT\r\n            node_id\r\n          FROM\r\n            params\r\n        )\r\n        AND type :: TEXT = 'residual'\r\n    ) ri ON TRUE\r\n  WHERE\r\n    cr.node_type :: TEXT = 'real'\r\n),\r\n/*\r\n \r\n DATA PRESENTER PART END\r\n Recipe (measurement names) to calculate the selected node's data is in the node_list CTE.\r\n \r\n You are free to query any data based on this list from this point,\r\n \r\n ***DATA QUERY PART START***\r\n */\r\ntime_range AS (\r\n  SELECT\r\n    CASE\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 12 * 3600 THEN INTERVAL '5 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 24 * 3600 THEN INTERVAL '10 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 7 * 24 * 3600 THEN INTERVAL '30 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 30 * 24 * 3600 THEN INTERVAL '1 hour'\r\n      ELSE INTERVAL '1 hour'\r\n    END AS aggregationWindow\r\n),\r\nraw_data AS (\r\n  SELECT\r\n    time_bucket_gapfill(aggregationWindow, timestamp) AS bucket,\r\n    measurement,\r\n    interpolate(MAX(heat_energy_total :: NUMERIC)) AS heat_energy_total\r\n  FROM\r\n    heat_energy_5min,\r\n    time_range\r\n  WHERE\r\n    timestamp BETWEEN '${__from:date:YYYY-MM-DD HH:mm:ss} Europe/Berlin'\r\n    AND '${__to:date:YYYY-MM-DD HH:mm:ss} Europe/Berlin'\r\n    AND measurement IN (\r\n      SELECT\r\n        measurement\r\n      FROM\r\n        node_list\r\n    )\r\n  GROUP BY\r\n    time_bucket_gapfill(aggregationWindow, timestamp),\r\n    measurement\r\n),\r\nconsumption AS (\r\n  SELECT\r\n    bucket AS _time,\r\n    measurement,\r\n    heat_energy_total - LAG(heat_energy_total) OVER (\r\n      PARTITION BY measurement\r\n      ORDER BY\r\n        bucket\r\n    ) AS Consumption\r\n  FROM\r\n    raw_data\r\n),\r\nsigned_consumption AS (\r\n  SELECT\r\n    c._time,\r\n    c.measurement,\r\n    n.node_name,\r\n    n.sign,\r\n    c.consumption * n.sign AS consumption\r\n  FROM\r\n    consumption c\r\n    JOIN node_list n ON c.measurement = n.measurement\r\n)\r\nSELECT\r\n  _time,\r\n  TO_CHAR(_time, 'YYYY-MM-DDT') || TO_CHAR(_time, 'HH24:00:00Z') AS _time_string,\r\n  SUM(consumption) AS consumption\r\nFROM\r\n  signed_consumption\r\nGROUP BY\r\n  _time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Heat consumption for timerange",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "consumption"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Consumption for the selected period"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 20,
+        "y": 26
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "inverted",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 20,
+          "valueSize": 30
+        },
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "/*DATA PRESENTER QUERY\r\n \r\n This part will select all real measurements connected to the displayed view. The result will be used for any needed calculation.\r\n */\r\n--Select a real node or if the selected node is virtual, select all it's real supply nodes\r\nWITH RECURSIVE params AS (\r\n  SELECT\r\n    n.id AS node_id\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n),\r\n-- The recursive CTE to find all REAL supplier nodes through a downward traversal\r\nreal_suppliers AS (\r\n  -- Anchor: The selected node to start the traversal\r\n  SELECT\r\n    n.id,\r\n    n.type,\r\n    n.title,\r\n    0 AS level,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN params p ON n.id = p.node_id\r\n  UNION\r\n  ALL -- Recursive part: Find the children of the current set of nodes\r\n  SELECT\r\n    c.id,\r\n    c.type,\r\n    c.title,\r\n    rs.level + 1 AS level,\r\n    rs.path || c.id AS path\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n    AND c.id <> ALL(rs.path) -- Cycle detection\r\n),\r\n--If a node is a remainder, find all it's siblings and prepare a recipe for calculating the consumption.\r\nparent_params AS(\r\n  SELECT\r\n    e.parent_id\r\n  FROM\r\n    datapresenter.edges e\r\n  WHERE\r\n    e.child_id = (\r\n      SELECT\r\n        node_id\r\n      FROM\r\n        params\r\n    )\r\n    AND e.edge_type :: TEXT = 'remainder'\r\n),\r\n-- The universal recursive CTE to find all REAL descendants, preserving the original child's context\r\nchild_recipes AS (\r\n  -- Anchor: The direct children of the parent\r\n  SELECT\r\n    n.id AS node_id,\r\n    n.type AS node_type,\r\n    n.title AS node_name,\r\n    n.measurement_name,\r\n    e.child_id AS top_child_id,\r\n    e.edge_type AS top_child_edge_type,\r\n    n.title AS top_child_name,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.edges e ON n.id = e.child_id\r\n  WHERE\r\n    e.parent_id = (\r\n      SELECT\r\n        parent_id\r\n      FROM\r\n        parent_params\r\n    ) -- We filter the anchor to not include the residual node itself, as its recipe is different\r\n    AND e.edge_type :: TEXT <> 'remainder'\r\n  UNION\r\n  ALL -- Recursive part: Find the suppliers for the current virtual nodes\r\n  SELECT\r\n    c.id AS node_id,\r\n    c.type AS node_type,\r\n    c.title AS node_name,\r\n    c.measurement_name,\r\n    cr.top_child_id,\r\n    cr.top_child_edge_type,\r\n    cr.top_child_name,\r\n    cr.path || c.id AS path\r\n  FROM\r\n    child_recipes cr\r\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    cr.node_type :: TEXT <> 'real' -- Stop when we hit a REAL node\r\n    AND c.id <> ALL(cr.path) -- Cycle detection\r\n    -- Only traverse 'supply' and 'aggregate' edges\r\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n),\r\n-- Final recipe for calculating of the consumption.\r\nnode_list AS (\r\n  -- Real or virtual node selected\r\n  -- Final SELECT to get the real nodes found in the traversal, all with a +1 sign\r\n  SELECT\r\n    DISTINCT n.id AS real_node_id,\r\n    n.title AS node_name,\r\n    n.measurement_name AS measurement,\r\n    + 1 AS sign\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.nodes n ON rs.id = n.id\r\n  WHERE\r\n    n.type :: TEXT = 'real'\r\n  UNION\r\n  ALL --Residual node selected\r\n  SELECT\r\n    cr.node_id AS node_id,\r\n    cr.node_name AS node_name,\r\n    cr.measurement_name AS measurement,\r\n    -- The sign is determined by the top-level edge type for the parent\r\n    CASE\r\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\r\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\r\n      ELSE 0\r\n    END AS sign\r\n  FROM\r\n    child_recipes cr\r\n    JOIN (\r\n      SELECT\r\n        id AS residual_id,\r\n        title AS residual_name\r\n      FROM\r\n        datapresenter.nodes\r\n      WHERE\r\n        id = (\r\n          SELECT\r\n            node_id\r\n          FROM\r\n            params\r\n        )\r\n        AND type :: TEXT = 'residual'\r\n    ) ri ON TRUE\r\n  WHERE\r\n    cr.node_type :: TEXT = 'real'\r\n),\r\n/*\r\n \r\n DATA PRESENTER PART END\r\n Recipe (measurement names) to calculate the selected node's data is in the node_list CTE.\r\n \r\n You are free to query any data based on this list from this point,\r\n \r\n ***DATA QUERY PART START***\r\n */\r\nunit_consumption AS (\r\n\tSELECT \r\n\t\ttimestamp,\r\n\t\tmeasurement,\r\n\t\theat_energy_total - LAG(heat_energy_total) OVER (PARTITION BY measurement ORDER BY timestamp) AS Consumption\r\n\tFROM heat_energy_hourly\r\n\tWHERE measurement IN (\r\n      SELECT\r\n        measurement\r\n      FROM\r\n        node_list\r\n    )\r\n    AND timestamp AT TIME ZONE 'Europe/Berlin' BETWEEN\r\n\t\t'${__from:date:YYYY-MM-DD HH\\:00\\:00} Europe/Berlin'::TIMESTAMP - INTERVAL '2 hours' AND \r\n\t\t'${__to:date:YYYY-MM-DD HH\\:00\\:00} Europe/Berlin'::TIMESTAMP\r\n),\r\nsigned_unit_consumption AS (\r\n\tSELECT \r\n\t\tc.timestamp,\r\n\t\tc.measurement,\r\n\t\tn.node_name,\r\n\t\tn.sign,\r\n\t\tc.consumption * n.sign AS consumption\r\n\tFROM\r\n\t\tunit_consumption c\r\n\tJOIN\r\n\t\tnode_list n\r\n\tON\r\n\t\tn.measurement = c.measurement\r\n),\r\nconsumption AS (\r\n\tSELECT\r\n\t\ttimestamp,\r\n\t\tSUM(Consumption) AS Consumption\r\n\tFROM signed_unit_consumption\r\n\tWHERE timestamp AT TIME ZONE 'Europe/Berlin' BETWEEN\r\n\t\t'${__from:date:YYYY-MM-DD HH\\:00\\:00} Europe/Berlin'::TIMESTAMP AND \r\n\t\t'${__to:date:YYYY-MM-DD HH\\:mm\\:ss} Europe/Berlin'::TIMESTAMP\r\n\tGROUP BY\r\n\t\ttimestamp\r\n)\r\nSELECT * FROM consumption\r\n",
+          "refId": "daily",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 34
+      },
+      "id": 16,
+      "panels": [],
+      "title": "Heat parameters",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRE_SQL UVN}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "orange"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 28,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  CASE\r\n    WHEN n.type = 'residual' THEN 'Pozor! Máte zvolený virtuálny bod. Hodnoty sú odvodené z pridružených reálnych bodov.'\r\n    ELSE ' '\r\n  END\r\nFROM \r\n  datapresenter.nodes n,\r\n  datapresenter.views v\r\nWHERE\r\n  v.id = $view\r\n  AND v.main_node_id = n.id",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRE_SQL UVN}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": true,
+            "axisColorMode": "text",
+            "axisGridShow": true,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "displayName": "Heat power",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "kwatt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "/*DATA PRESENTER QUERY\r\n \r\n This part will select all real measurements connected to the displayed view. The result will be used for any needed calculation.\r\n */\r\n--Select a real node or if the selected node is virtual, select all it's real supply nodes\r\nWITH RECURSIVE params AS (\r\n  SELECT\r\n    n.id AS node_id\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n),\r\n-- The recursive CTE to find all REAL supplier nodes through a downward traversal\r\nreal_suppliers AS (\r\n  -- Anchor: The selected node to start the traversal\r\n  SELECT\r\n    n.id,\r\n    n.type,\r\n    n.title,\r\n    0 AS level,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN params p ON n.id = p.node_id\r\n  UNION\r\n  ALL -- Recursive part: Find the children of the current set of nodes\r\n  SELECT\r\n    c.id,\r\n    c.type,\r\n    c.title,\r\n    rs.level + 1 AS level,\r\n    rs.path || c.id AS path\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n    AND c.id <> ALL(rs.path) -- Cycle detection\r\n),\r\n--If a node is a remainder, find all it's siblings and prepare a recipe for calculating the consumption.\r\nparent_params AS(\r\n  SELECT\r\n    e.parent_id\r\n  FROM\r\n    datapresenter.edges e\r\n  WHERE\r\n    e.child_id = (\r\n      SELECT\r\n        node_id\r\n      FROM\r\n        params\r\n    )\r\n    AND e.edge_type :: TEXT = 'remainder'\r\n),\r\n-- The universal recursive CTE to find all REAL descendants, preserving the original child's context\r\nchild_recipes AS (\r\n  -- Anchor: The direct children of the parent\r\n  SELECT\r\n    n.id AS node_id,\r\n    n.type AS node_type,\r\n    n.title AS node_name,\r\n    n.measurement_name,\r\n    e.child_id AS top_child_id,\r\n    e.edge_type AS top_child_edge_type,\r\n    n.title AS top_child_name,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.edges e ON n.id = e.child_id\r\n  WHERE\r\n    e.parent_id = (\r\n      SELECT\r\n        parent_id\r\n      FROM\r\n        parent_params\r\n    ) -- We filter the anchor to not include the residual node itself, as its recipe is different\r\n    AND e.edge_type :: TEXT <> 'remainder'\r\n  UNION\r\n  ALL -- Recursive part: Find the suppliers for the current virtual nodes\r\n  SELECT\r\n    c.id AS node_id,\r\n    c.type AS node_type,\r\n    c.title AS node_name,\r\n    c.measurement_name,\r\n    cr.top_child_id,\r\n    cr.top_child_edge_type,\r\n    cr.top_child_name,\r\n    cr.path || c.id AS path\r\n  FROM\r\n    child_recipes cr\r\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    cr.node_type :: TEXT <> 'real' -- Stop when we hit a REAL node\r\n    AND c.id <> ALL(cr.path) -- Cycle detection\r\n    -- Only traverse 'supply' and 'aggregate' edges\r\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n),\r\n-- Final recipe for calculating of the consumption.\r\nnode_list AS (\r\n  -- Real or virtual node selected\r\n  -- Final SELECT to get the real nodes found in the traversal, all with a +1 sign\r\n  SELECT\r\n    DISTINCT n.id AS real_node_id,\r\n    n.title AS node_name,\r\n    n.measurement_name AS measurement,\r\n    + 1 AS sign\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.nodes n ON rs.id = n.id\r\n  WHERE\r\n    n.type :: TEXT = 'real'\r\n  UNION\r\n  ALL --Residual node selected\r\n  SELECT\r\n    cr.node_id AS node_id,\r\n    cr.node_name AS node_name,\r\n    cr.measurement_name AS measurement,\r\n    -- The sign is determined by the top-level edge type for the parent\r\n    CASE\r\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\r\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\r\n      ELSE 0\r\n    END AS sign\r\n  FROM\r\n    child_recipes cr\r\n    JOIN (\r\n      SELECT\r\n        id AS residual_id,\r\n        title AS residual_name\r\n      FROM\r\n        datapresenter.nodes\r\n      WHERE\r\n        id = (\r\n          SELECT\r\n            node_id\r\n          FROM\r\n            params\r\n        )\r\n        AND type :: TEXT = 'residual'\r\n    ) ri ON TRUE\r\n  WHERE\r\n    cr.node_type :: TEXT = 'real'\r\n),\r\n/*\r\n \r\n DATA PRESENTER PART END\r\n Recipe (measurement names) to calculate the selected node's data is in the node_list CTE.\r\n \r\n You are free to query any data based on this list from this point,\r\n \r\n ***DATA QUERY PART START***\r\n */\r\ntime_range AS (\r\n  SELECT\r\n    CASE\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 12 * 3600 THEN INTERVAL '1 minute'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 24 * 3600 THEN INTERVAL '5 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 7 * 24 * 3600 THEN INTERVAL '15 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 30 * 24 * 3600 THEN INTERVAL '1 hour'\r\n      ELSE INTERVAL '2 hours'\r\n    END AS aggregationWindow\r\n),\r\nraw_data AS (\r\n  SELECT\r\n    time_bucket(aggregationWindow, timestamp, 'Europe/Berlin') AS _time,\r\n    measurement,\r\n    AVG(power_total) AS power_total\r\n  FROM\r\n    heat_params,\r\n    time_range\r\n  WHERE\r\n    timestamp BETWEEN $__timeFrom()\r\n    AND $__timeTo()\r\n    AND measurement IN (\r\n      SELECT\r\n        DISTINCT measurement\r\n      FROM\r\n        node_list\r\n    )\r\n  GROUP BY\r\n    time_bucket(aggregationWindow, timestamp, 'Europe/Berlin'),\r\n    measurement\r\n),\r\nsigned_data AS (\r\n  SELECT\r\n    c._time,\r\n    c.measurement,\r\n    c.power_total * n.sign AS power_total\r\n  FROM\r\n    raw_data c\r\n    JOIN node_list n ON n.measurement = c.measurement\r\n)\r\nSELECT\r\n  _time AS time,\r\n  'power_total' AS field,\r\n  SUM(power_total) AS __value\r\nFROM\r\n  signed_data\r\nGROUP BY _time, field",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Power",
+      "transformations": [
+        {
+          "id": "groupingToMatrix",
+          "options": {
+            "columnField": "field",
+            "emptyValue": "null",
+            "rowField": "time",
+            "valueField": "__value"
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRE_SQL UVN}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": true,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "displayName": "Heat difference",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 45
+      },
+      "id": 27,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "/*DATA PRESENTER QUERY\r\n \r\n This part will select all real measurements connected to the displayed view. The result will be used for any needed calculation.\r\n */\r\n--Select a real node or if the selected node is virtual, select all it's real supply nodes\r\nWITH RECURSIVE params AS (\r\n  SELECT\r\n    n.id AS node_id\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n),\r\n-- The recursive CTE to find all REAL supplier nodes through a downward traversal\r\nreal_suppliers AS (\r\n  -- Anchor: The selected node to start the traversal\r\n  SELECT\r\n    n.id,\r\n    n.type,\r\n    n.title,\r\n    0 AS level,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN params p ON n.id = p.node_id\r\n  UNION\r\n  ALL -- Recursive part: Find the children of the current set of nodes\r\n  SELECT\r\n    c.id,\r\n    c.type,\r\n    c.title,\r\n    rs.level + 1 AS level,\r\n    rs.path || c.id AS path\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n    AND c.id <> ALL(rs.path) -- Cycle detection\r\n),\r\n--If a node is a remainder, find all it's siblings and prepare a recipe for calculating the consumption.\r\nparent_params AS(\r\n  SELECT\r\n    e.parent_id\r\n  FROM\r\n    datapresenter.edges e\r\n  WHERE\r\n    e.child_id = (\r\n      SELECT\r\n        node_id\r\n      FROM\r\n        params\r\n    )\r\n    AND e.edge_type :: TEXT = 'remainder'\r\n),\r\n-- The universal recursive CTE to find all REAL descendants, preserving the original child's context\r\nchild_recipes AS (\r\n  -- Anchor: The direct children of the parent\r\n  SELECT\r\n    n.id AS node_id,\r\n    n.type AS node_type,\r\n    n.title AS node_name,\r\n    n.measurement_name,\r\n    e.child_id AS top_child_id,\r\n    e.edge_type AS top_child_edge_type,\r\n    n.title AS top_child_name,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.edges e ON n.id = e.child_id\r\n  WHERE\r\n    e.parent_id = (\r\n      SELECT\r\n        parent_id\r\n      FROM\r\n        parent_params\r\n    ) -- We filter the anchor to not include the residual node itself, as its recipe is different\r\n    AND e.edge_type :: TEXT <> 'remainder'\r\n  UNION\r\n  ALL -- Recursive part: Find the suppliers for the current virtual nodes\r\n  SELECT\r\n    c.id AS node_id,\r\n    c.type AS node_type,\r\n    c.title AS node_name,\r\n    c.measurement_name,\r\n    cr.top_child_id,\r\n    cr.top_child_edge_type,\r\n    cr.top_child_name,\r\n    cr.path || c.id AS path\r\n  FROM\r\n    child_recipes cr\r\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    cr.node_type :: TEXT <> 'real' -- Stop when we hit a REAL node\r\n    AND c.id <> ALL(cr.path) -- Cycle detection\r\n    -- Only traverse 'supply' and 'aggregate' edges\r\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n),\r\n-- Final recipe for calculating of the consumption.\r\nnode_list AS (\r\n  -- Real or virtual node selected\r\n  -- Final SELECT to get the real nodes found in the traversal, all with a +1 sign\r\n  SELECT\r\n    DISTINCT n.id AS real_node_id,\r\n    n.title AS node_name,\r\n    n.measurement_name AS measurement,\r\n    + 1 AS sign\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.nodes n ON rs.id = n.id\r\n  WHERE\r\n    n.type :: TEXT = 'real'\r\n  UNION\r\n  ALL --Residual node selected\r\n  SELECT\r\n    cr.node_id AS node_id,\r\n    cr.node_name AS node_name,\r\n    cr.measurement_name AS measurement,\r\n    -- The sign is determined by the top-level edge type for the parent\r\n    CASE\r\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\r\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\r\n      ELSE 0\r\n    END AS sign\r\n  FROM\r\n    child_recipes cr\r\n    JOIN (\r\n      SELECT\r\n        id AS residual_id,\r\n        title AS residual_name\r\n      FROM\r\n        datapresenter.nodes\r\n      WHERE\r\n        id = (\r\n          SELECT\r\n            node_id\r\n          FROM\r\n            params\r\n        )\r\n        AND type :: TEXT = 'residual'\r\n    ) ri ON TRUE\r\n  WHERE\r\n    cr.node_type :: TEXT = 'real'\r\n),\r\n/*\r\n \r\n DATA PRESENTER PART END\r\n Recipe (measurement names) to calculate the selected node's data is in the node_list CTE.\r\n \r\n You are free to query any data based on this list from this point,\r\n \r\n ***DATA QUERY PART START***\r\n */\r\ntime_range AS (\r\n  SELECT\r\n    CASE\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 12 * 3600 THEN INTERVAL '1 minute'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 24 * 3600 THEN INTERVAL '5 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 7 * 24 * 3600 THEN INTERVAL '15 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 30 * 24 * 3600 THEN INTERVAL '1 hour'\r\n      ELSE INTERVAL '2 hours'\r\n    END AS aggregationWindow\r\n),\r\nraw_data AS (\r\n  SELECT\r\n    time_bucket(aggregationWindow, timestamp, 'Europe/Berlin') AS _time,\r\n    measurement,\r\n    AVG(temperature_difference) AS temperature_difference\r\n  FROM\r\n    heat_params,\r\n    time_range\r\n  WHERE\r\n    timestamp BETWEEN $__timeFrom()\r\n    AND $__timeTo()\r\n    AND measurement IN (\r\n      SELECT\r\n        DISTINCT measurement\r\n      FROM\r\n        node_list\r\n    )\r\n  GROUP BY\r\n    time_bucket(aggregationWindow, timestamp, 'Europe/Berlin'),\r\n    measurement\r\n)\r\nSELECT\r\n  _time AS time,\r\n  AVG(temperature_difference) AS temperature_difference\r\nFROM\r\n  raw_data\r\nGROUP BY _time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Heat difference",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRE_SQL UVN}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": true,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "temperature_cold"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Heat (recirculation circuit)"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "temperature_hot"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Heat (Output)"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 54
+      },
+      "id": 26,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "/*DATA PRESENTER QUERY\r\n \r\n This part will select all real measurements connected to the displayed view. The result will be used for any needed calculation.\r\n */\r\n--Select a real node or if the selected node is virtual, select all it's real supply nodes\r\nWITH RECURSIVE params AS (\r\n  SELECT\r\n    n.id AS node_id\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n),\r\n-- The recursive CTE to find all REAL supplier nodes through a downward traversal\r\nreal_suppliers AS (\r\n  -- Anchor: The selected node to start the traversal\r\n  SELECT\r\n    n.id,\r\n    n.type,\r\n    n.title,\r\n    0 AS level,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN params p ON n.id = p.node_id\r\n  UNION\r\n  ALL -- Recursive part: Find the children of the current set of nodes\r\n  SELECT\r\n    c.id,\r\n    c.type,\r\n    c.title,\r\n    rs.level + 1 AS level,\r\n    rs.path || c.id AS path\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n    AND c.id <> ALL(rs.path) -- Cycle detection\r\n),\r\n--If a node is a remainder, find all it's siblings and prepare a recipe for calculating the consumption.\r\nparent_params AS(\r\n  SELECT\r\n    e.parent_id\r\n  FROM\r\n    datapresenter.edges e\r\n  WHERE\r\n    e.child_id = (\r\n      SELECT\r\n        node_id\r\n      FROM\r\n        params\r\n    )\r\n    AND e.edge_type :: TEXT = 'remainder'\r\n),\r\n-- The universal recursive CTE to find all REAL descendants, preserving the original child's context\r\nchild_recipes AS (\r\n  -- Anchor: The direct children of the parent\r\n  SELECT\r\n    n.id AS node_id,\r\n    n.type AS node_type,\r\n    n.title AS node_name,\r\n    n.measurement_name,\r\n    e.child_id AS top_child_id,\r\n    e.edge_type AS top_child_edge_type,\r\n    n.title AS top_child_name,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.edges e ON n.id = e.child_id\r\n  WHERE\r\n    e.parent_id = (\r\n      SELECT\r\n        parent_id\r\n      FROM\r\n        parent_params\r\n    ) -- We filter the anchor to not include the residual node itself, as its recipe is different\r\n    AND e.edge_type :: TEXT <> 'remainder'\r\n  UNION\r\n  ALL -- Recursive part: Find the suppliers for the current virtual nodes\r\n  SELECT\r\n    c.id AS node_id,\r\n    c.type AS node_type,\r\n    c.title AS node_name,\r\n    c.measurement_name,\r\n    cr.top_child_id,\r\n    cr.top_child_edge_type,\r\n    cr.top_child_name,\r\n    cr.path || c.id AS path\r\n  FROM\r\n    child_recipes cr\r\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    cr.node_type :: TEXT <> 'real' -- Stop when we hit a REAL node\r\n    AND c.id <> ALL(cr.path) -- Cycle detection\r\n    -- Only traverse 'supply' and 'aggregate' edges\r\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n),\r\n-- Final recipe for calculating of the consumption.\r\nnode_list AS (\r\n  -- Real or virtual node selected\r\n  -- Final SELECT to get the real nodes found in the traversal, all with a +1 sign\r\n  SELECT\r\n    DISTINCT n.id AS real_node_id,\r\n    n.title AS node_name,\r\n    n.measurement_name AS measurement,\r\n    + 1 AS sign\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.nodes n ON rs.id = n.id\r\n  WHERE\r\n    n.type :: TEXT = 'real'\r\n  UNION\r\n  ALL --Residual node selected\r\n  SELECT\r\n    cr.node_id AS node_id,\r\n    cr.node_name AS node_name,\r\n    cr.measurement_name AS measurement,\r\n    -- The sign is determined by the top-level edge type for the parent\r\n    CASE\r\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\r\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\r\n      ELSE 0\r\n    END AS sign\r\n  FROM\r\n    child_recipes cr\r\n    JOIN (\r\n      SELECT\r\n        id AS residual_id,\r\n        title AS residual_name\r\n      FROM\r\n        datapresenter.nodes\r\n      WHERE\r\n        id = (\r\n          SELECT\r\n            node_id\r\n          FROM\r\n            params\r\n        )\r\n        AND type :: TEXT = 'residual'\r\n    ) ri ON TRUE\r\n  WHERE\r\n    cr.node_type :: TEXT = 'real'\r\n),\r\n/*\r\n \r\n DATA PRESENTER PART END\r\n Recipe (measurement names) to calculate the selected node's data is in the node_list CTE.\r\n \r\n You are free to query any data based on this list from this point,\r\n \r\n ***DATA QUERY PART START***\r\n */\r\ntime_range AS (\r\n  SELECT\r\n    CASE\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 12 * 3600 THEN INTERVAL '1 minute'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 24 * 3600 THEN INTERVAL '5 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 7 * 24 * 3600 THEN INTERVAL '15 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 30 * 24 * 3600 THEN INTERVAL '1 hour'\r\n      ELSE INTERVAL '2 hours'\r\n    END AS aggregationWindow\r\n),\r\nraw_data AS (\r\n  SELECT\r\n    time_bucket(aggregationWindow, timestamp, 'Europe/Berlin') AS _time,\r\n    measurement,\r\n    AVG(temperature_cold) AS temperature_cold,\r\n    AVG(temperature_hot) AS temperature_hot\r\n  FROM\r\n    heat_params,\r\n    time_range\r\n  WHERE\r\n    timestamp BETWEEN $__timeFrom()\r\n    AND $__timeTo()\r\n    AND measurement IN (\r\n      SELECT\r\n        DISTINCT measurement\r\n      FROM\r\n        node_list\r\n    )\r\n  GROUP BY\r\n    time_bucket(aggregationWindow, timestamp, 'Europe/Berlin'),\r\n    measurement\r\n)\r\nSELECT\r\n  _time AS time,\r\n  AVG(temperature_cold) AS temperature_cold,\r\n  AVG(temperature_hot) AS temperature_hot\r\nFROM\r\n  raw_data\r\nGROUP BY _time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Heat measurements",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRE_SQL UVN}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": true,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "displayName": "Flow",
+          "mappings": [],
+          "min": 3,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "m³/h"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 63
+      },
+      "id": 25,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRE_SQL UVN}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "/*DATA PRESENTER QUERY\r\n \r\n This part will select all real measurements connected to the displayed view. The result will be used for any needed calculation.\r\n */\r\n--Select a real node or if the selected node is virtual, select all it's real supply nodes\r\nWITH RECURSIVE params AS (\r\n  SELECT\r\n    n.id AS node_id\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.views v ON n.id = v.main_node_id\r\n    AND v.id = $view\r\n),\r\n-- The recursive CTE to find all REAL supplier nodes through a downward traversal\r\nreal_suppliers AS (\r\n  -- Anchor: The selected node to start the traversal\r\n  SELECT\r\n    n.id,\r\n    n.type,\r\n    n.title,\r\n    0 AS level,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN params p ON n.id = p.node_id\r\n  UNION\r\n  ALL -- Recursive part: Find the children of the current set of nodes\r\n  SELECT\r\n    c.id,\r\n    c.type,\r\n    c.title,\r\n    rs.level + 1 AS level,\r\n    rs.path || c.id AS path\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.edges e ON rs.id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n    AND c.id <> ALL(rs.path) -- Cycle detection\r\n),\r\n--If a node is a remainder, find all it's siblings and prepare a recipe for calculating the consumption.\r\nparent_params AS(\r\n  SELECT\r\n    e.parent_id\r\n  FROM\r\n    datapresenter.edges e\r\n  WHERE\r\n    e.child_id = (\r\n      SELECT\r\n        node_id\r\n      FROM\r\n        params\r\n    )\r\n    AND e.edge_type :: TEXT = 'remainder'\r\n),\r\n-- The universal recursive CTE to find all REAL descendants, preserving the original child's context\r\nchild_recipes AS (\r\n  -- Anchor: The direct children of the parent\r\n  SELECT\r\n    n.id AS node_id,\r\n    n.type AS node_type,\r\n    n.title AS node_name,\r\n    n.measurement_name,\r\n    e.child_id AS top_child_id,\r\n    e.edge_type AS top_child_edge_type,\r\n    n.title AS top_child_name,\r\n    ARRAY [n.id] AS path\r\n  FROM\r\n    datapresenter.nodes n\r\n    JOIN datapresenter.edges e ON n.id = e.child_id\r\n  WHERE\r\n    e.parent_id = (\r\n      SELECT\r\n        parent_id\r\n      FROM\r\n        parent_params\r\n    ) -- We filter the anchor to not include the residual node itself, as its recipe is different\r\n    AND e.edge_type :: TEXT <> 'remainder'\r\n  UNION\r\n  ALL -- Recursive part: Find the suppliers for the current virtual nodes\r\n  SELECT\r\n    c.id AS node_id,\r\n    c.type AS node_type,\r\n    c.title AS node_name,\r\n    c.measurement_name,\r\n    cr.top_child_id,\r\n    cr.top_child_edge_type,\r\n    cr.top_child_name,\r\n    cr.path || c.id AS path\r\n  FROM\r\n    child_recipes cr\r\n    JOIN datapresenter.edges e ON cr.node_id = e.parent_id\r\n    JOIN datapresenter.nodes c ON e.child_id = c.id\r\n  WHERE\r\n    cr.node_type :: TEXT <> 'real' -- Stop when we hit a REAL node\r\n    AND c.id <> ALL(cr.path) -- Cycle detection\r\n    -- Only traverse 'supply' and 'aggregate' edges\r\n    AND e.edge_type :: TEXT IN ('supply', 'aggregate')\r\n),\r\n-- Final recipe for calculating of the consumption.\r\nnode_list AS (\r\n  -- Real or virtual node selected\r\n  -- Final SELECT to get the real nodes found in the traversal, all with a +1 sign\r\n  SELECT\r\n    DISTINCT n.id AS real_node_id,\r\n    n.title AS node_name,\r\n    n.measurement_name AS measurement,\r\n    + 1 AS sign\r\n  FROM\r\n    real_suppliers rs\r\n    JOIN datapresenter.nodes n ON rs.id = n.id\r\n  WHERE\r\n    n.type :: TEXT = 'real'\r\n  UNION\r\n  ALL --Residual node selected\r\n  SELECT\r\n    cr.node_id AS node_id,\r\n    cr.node_name AS node_name,\r\n    cr.measurement_name AS measurement,\r\n    -- The sign is determined by the top-level edge type for the parent\r\n    CASE\r\n      WHEN cr.top_child_edge_type :: TEXT IN ('supply', 'aggregate') THEN 1\r\n      WHEN cr.top_child_edge_type :: TEXT = 'include' THEN -1\r\n      ELSE 0\r\n    END AS sign\r\n  FROM\r\n    child_recipes cr\r\n    JOIN (\r\n      SELECT\r\n        id AS residual_id,\r\n        title AS residual_name\r\n      FROM\r\n        datapresenter.nodes\r\n      WHERE\r\n        id = (\r\n          SELECT\r\n            node_id\r\n          FROM\r\n            params\r\n        )\r\n        AND type :: TEXT = 'residual'\r\n    ) ri ON TRUE\r\n  WHERE\r\n    cr.node_type :: TEXT = 'real'\r\n),\r\n/*\r\n \r\n DATA PRESENTER PART END\r\n Recipe (measurement names) to calculate the selected node's data is in the node_list CTE.\r\n \r\n You are free to query any data based on this list from this point,\r\n \r\n ***DATA QUERY PART START***\r\n */\r\ntime_range AS (\r\n  SELECT\r\n    CASE\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 12 * 3600 THEN INTERVAL '1 minute'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 24 * 3600 THEN INTERVAL '5 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 7 * 24 * 3600 THEN INTERVAL '15 minutes'\r\n      WHEN EXTRACT(\r\n        EPOCH\r\n        FROM\r\n          (\r\n            $__timeTo() :: TIMESTAMP - $__timeFrom() :: TIMESTAMP\r\n          )\r\n      ) <= 30 * 24 * 3600 THEN INTERVAL '1 hour'\r\n      ELSE INTERVAL '2 hours'\r\n    END AS aggregationWindow\r\n),\r\nraw_data AS (\r\n  SELECT\r\n    time_bucket(aggregationWindow, timestamp, 'Europe/Berlin') AS _time,\r\n    measurement,\r\n    AVG(flow) AS flow\r\n  FROM\r\n    heat_params,\r\n    time_range\r\n  WHERE\r\n    timestamp BETWEEN $__timeFrom()\r\n    AND $__timeTo()\r\n    AND measurement IN (\r\n      SELECT\r\n        DISTINCT measurement\r\n      FROM\r\n        node_list\r\n    )\r\n  GROUP BY\r\n    time_bucket(aggregationWindow, timestamp, 'Europe/Berlin'),\r\n    measurement\r\n),\r\nsigned_data AS (\r\n  SELECT\r\n    c._time,\r\n    c.measurement,\r\n    c.flow * n.sign AS flow\r\n  FROM\r\n    raw_data c\r\n    JOIN node_list n ON n.measurement = c.measurement\r\n)\r\nSELECT\r\n  _time AS time,\r\n  'flow' AS field,\r\n  SUM(flow) AS __value\r\nFROM\r\n  signed_data\r\nGROUP BY _time, field",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Flow",
+      "transformations": [
+        {
+          "id": "groupingToMatrix",
+          "options": {
+            "columnField": "field",
+            "emptyValue": "null",
+            "rowField": "time",
+            "valueField": "__value"
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 41,
+  "tags": [
+    "Consumption",
+    "Meuasurement point",
+    "Heat"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "${DS_POSTGRE_SQL UVN}"
+        },
+        "definition": "SELECT\n  v.id AS __value,\n  v.name AS __text\nFROM\n  datapresenter.views v\nJOIN\n  datapresenter.nodes n ON n.id = v.main_node_id\nWHERE\n  n.type_string = 'Kalorimeter'\nORDER BY v.name DESC",
+        "description": "",
+        "label": "Heatmeter",
+        "name": "view",
+        "options": [],
+        "query": "SELECT\n  v.id AS __value,\n  v.name AS __text\nFROM\n  datapresenter.views v\nJOIN\n  datapresenter.nodes n ON n.id = v.main_node_id\nWHERE\n  n.type_string = 'Kalorimeter'\nORDER BY v.name DESC",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "${DS_POSTGRE_SQL UVN}"
+        },
+        "definition": "SELECT DISTINCT year FROM year_month ORDER BY year DESC;",
+        "label": "Year",
+        "name": "selectedYear",
+        "options": [],
+        "query": "SELECT DISTINCT year FROM year_month ORDER BY year DESC;",
+        "refresh": 1,
+        "regex": "",
+        "sort": 4,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "${DS_POSTGRE_SQL UVN}"
+        },
+        "definition": "SELECT DISTINCT \"month\" FROM year_month WHERE \"year\" = ${selectedYear}",
+        "label": "Month",
+        "name": "selectedMonth",
+        "options": [],
+        "query": "SELECT DISTINCT \"month\" FROM year_month WHERE \"year\" = ${selectedYear}",
+        "refresh": 1,
+        "regex": "",
+        "sort": 4,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Measurement point (Heat)",
+  "uid": "408f3ca0-57c5-489e-9431-e145bb18a8d8",
+  "version": 10,
+  "weekStart": ""
+}

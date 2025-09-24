@@ -1427,7 +1427,7 @@
           },
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_POSTGRESQL_TAP}"
+            "uid": "bez1zyok80qv4c"
           },
           "definition": "SELECT \n CASE WHEN tags-\u003e\u003e'cluster' = 'idle' THEN 'Nečinný'\n WHEN tags-\u003e\u003e'cluster' = 'working' THEN 'Pracovný'\n WHEN tags-\u003e\u003e'cluster' = 'heating' THEN 'Zahrievanie'\n WHEN tags-\u003e\u003e'cluster' = 'off' THEN 'Vypnutý'\nELSE \ntags-\u003e\u003e'cluster' \nEND AS cluster \nFROM optimal_states_table\n WHERE measurement = '${machine}'",
           "includeAll": false,

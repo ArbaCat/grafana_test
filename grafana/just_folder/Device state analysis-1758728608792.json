@@ -121,7 +121,7 @@
       {
         "datasource": {
           "type": "grafana-postgresql-datasource",
-          "uid": "${DS_POSTGRESQL_TAP}"
+          "uid": "bez1zyok80qv4c"
         },
         "fieldConfig": {
           "defaults": {
@@ -196,7 +196,7 @@
           {
             "datasource": {
               "type": "grafana-postgresql-datasource",
-              "uid": "${DS_POSTGRESQL_TAP}"
+              "uid": "bez1zyok80qv4c"
             },
             "editorMode": "code",
             "format": "table",

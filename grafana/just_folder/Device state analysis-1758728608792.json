@@ -1,0 +1,1507 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_ALARMING_API TAP",
+      "label": "Alarming API tap",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "yesoreyeram-infinity-datasource",
+      "pluginName": "Infinity"
+    },
+    {
+      "name": "DS_POSTGRESQL_TAP",
+      "label": "PostgreSQL tap",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-postgresql-datasource",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "12.1.0-pre"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-postgresql-datasource",
+      "name": "PostgreSQL",
+      "version": "12.1.0-pre"
+    },
+    {
+      "type": "panel",
+      "id": "marcusolsson-dynamictext-panel",
+      "name": "Business Text",
+      "version": "6.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "marcusolsson-hourly-heatmap-panel",
+      "name": "Hourly heatmap",
+      "version": "2.0.1"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "volkovlabs-echarts-panel",
+      "name": "Business Charts",
+      "version": "7.1.0"
+    },
+    {
+      "type": "datasource",
+      "id": "yesoreyeram-infinity-datasource",
+      "name": "Infinity",
+      "version": "3.5.0"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_ALARMING_API TAP}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 21,
+        "x": 0,
+        "y": 0
+      },
+      "id": 24,
+      "options": {
+        "afterRender": "let low = []\r\nlet medium = []\r\nlet high = []\r\nlet critical = []\r\nlet other = []\r\n\r\nlet threshold = (new Date()).getTime() - 60 * 1000\r\nif (context.data.length) {\r\n  for (let alert of context.data[0]) {\r\n    let start = new Date(alert.alarmStart)\r\n    if (start.getTime() >= threshold) {\r\n      if (alert.alarmDefinition.severity == 1) {\r\n        low.push(alert.alarmDefinition.alarmText)\r\n      }\r\n      else if (alert.alarmDefinition.severity == 2) {\r\n        medium.push(alert.alarmDefinition.alarmText)\r\n      }\r\n      else if (alert.alarmDefinition.severity == 3) {\r\n        high.push(alert.alarmDefinition.alarmText)\r\n      }\r\n      else if (alert.alarmDefinition.severity == 4) {\r\n        critical.push(alert.alarmDefinition.alarmText)\r\n      }\r\n      else {\r\n        other.push(alert.alarmDefinition.alarmText)\r\n      }\r\n    }\r\n  }\r\n\r\n  for (let alert of low) {\r\n    context.grafana.notifyError([\"Alarm (Nízka závažnosť)\", alert])\r\n  }\r\n  for (let alert of medium) {\r\n    context.grafana.notifyError([\"Alarm (Stredná závažnosť)\", alert])\r\n  }\r\n  for (let alert of high) {\r\n    context.grafana.notifyError([\"Alarm (Vysoká závažnosť)\", alert])\r\n  }\r\n  for (let alert of critical) {\r\n    context.grafana.notifyError([\"Alarm (Kritická závažnosť)\", alert])\r\n  }\r\n}",
+        "content": "",
+        "contentPartials": [],
+        "defaultContent": "<div class=\"header-container\">\r\n  <img class=\"logo-desktop\" src=\"https://www.daitable.com/Daitable_logo_white.svg\" alt=\"Logo for desktop\">\r\n  <img class=\"logo-mobile\" src=\"/public/img/grafana_icon.svg\" alt=\"Logo for mobile\">\r\n  <h1>Placeholder</h1>\r\n</div>",
+        "editor": {
+          "format": "auto",
+          "language": "html"
+        },
+        "editors": [
+          "default",
+          "afterRender",
+          "styles"
+        ],
+        "externalStyles": [],
+        "helpers": "",
+        "renderMode": "data",
+        "styles": "h1 {\r\n  font-size: clamp(1.8rem, 2.5vw, 2.5rem);  \r\n  font-family: 'Montserrat', sans-serif;\r\n  font-weight: bold;\r\n  margin: 0;\r\n  white-space: normal;\r\n  max-width: 100%;\r\n}\r\n\r\n.header-container {\r\n  display: flex;\r\n  flex-wrap: nowrap;          \r\n  align-items: center;         \r\n  justify-content: flex-start; \r\n  gap: 20px;                   \r\n  padding-left: 10px;\r\n  text-align: left;\r\n}\r\n\r\n.logo-desktop,\r\n.logo-mobile {\r\n  height: clamp(40px, 8vw, 80px);\r\n  width: auto;\r\n}\r\n\r\n.logo-mobile {\r\n  display: none;\r\n}\r\n\r\n@media (max-width: 576px) {\r\n  .logo-desktop {\r\n      display: none;\r\n  }\r\n  .logo-mobile {\r\n      display: none;   \r\n  }\r\n }\r\n\r\n@media (min-width: 577px) and (max-width: 991px) {\r\n  .logo-desktop {\r\n      display: none;\r\n  }\r\n  .logo-mobile {\r\n      display: block;\r\n      height: clamp(40px, 8vw, 80px);\r\n  }\r\n}\r\n\r\n@media (min-width: 992px) {\r\n  .logo-desktop {\r\n      display: block;\r\n  }\r\n  .logo-mobile {\r\n      display: none;\r\n  }\r\n}",
+        "wrap": true
+      },
+      "pluginVersion": "6.0.0",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_ALARMING_API TAP}"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": true,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://guard331.azurewebsites.net/api/v1/data/alarm_event",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": [
+              {
+                "key": "request",
+                "value": "{}"
+              },
+              {
+                "key": "start",
+                "value": "${__from:date:iso}"
+              },
+              {
+                "key": "end",
+                "value": "${__to:date:iso}"
+              }
+            ]
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "marcusolsson-dynamictext-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "candidate_working": {
+                  "color": "blue",
+                  "index": 2,
+                  "text": "Heating"
+                },
+                "idle": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Idle"
+                },
+                "off": {
+                  "color": "dark-orange",
+                  "index": 3,
+                  "text": "Off"
+                },
+                "working": {
+                  "color": "dark-yellow",
+                  "index": 1,
+                  "text": "Work"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 0
+      },
+      "id": 25,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^Cluster$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH raw AS (SELECT\r\n    s.*,\r\n    p.*\r\nFROM\r\n    statistics_table AS s,\r\n    json_to_record(payload::json) AS p(\r\n       \"Cluster\"  VARCHAR,\r\n        \"Total_Active_Power\" FLOAT\r\n    )\r\n  WHERE s.measurement = '${machine}' AND \"timestamp\" BETWEEN $__timeFrom() AND $__timeTo() \r\n)\r\nSELECT\r\n    *\r\nFROM raw \r\nORDER BY timestamp ASC;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Actual device state",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 26,
+      "panels": [],
+      "title": "Detailed state overview",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": true,
+            "axisLabel": "Celkový aktívny výkon",
+            "axisPlacement": "auto",
+            "barAlignment": 1,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 19,
+        "x": 0,
+        "y": 4
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH raw AS (SELECT\n    s.*,\n    p.*\nFROM\n    statistics_table AS s,\n    json_to_record(payload::json) AS p(\n       \"Cluster\"  VARCHAR,\n        \"Total_Active_Power\" FLOAT\n    )\n  WHERE s.measurement = '${machine}' AND \"timestamp\" BETWEEN $__timeFrom() AND $__timeTo() \n)\nSELECT\n    timestamp,\n    MAX(CASE WHEN r.\"Cluster\" = 'idle' THEN \"Total_Active_Power\"  ELSE NULL END)  AS \"Nečinný\",\n    MAX(CASE WHEN r.\"Cluster\" = 'working' THEN \"Total_Active_Power\"  ELSE NULL END) AS \"Práca\",\n    MAX(CASE WHEN r.\"Cluster\" = 'candidate_heating' THEN \"Total_Active_Power\"  ELSE NULL END)  AS \"Zahrievanie\",\n    MAX(CASE WHEN r.\"Cluster\" = 'off' THEN \"Total_Active_Power\"  ELSE NULL END)  AS \"Vypnutý\"\nFROM raw r\nGROUP BY timestamp\nORDER BY timestamp DESC;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 19,
+        "y": 4
+      },
+      "id": 15,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH raw AS (SELECT\n    s.*,\n    p.*\nFROM\n    statistics_table AS s,\n    json_to_record(payload::json) AS p(\n        \"index\" INT,\n        \"Current_L1\" FLOAT,\n        \"Current_L2\" FLOAT,\n        \"Current_L3\" FLOAT,\n        \"Voltage_L1\" FLOAT,\n        \"Voltage_L2\" FLOAT,\n        \"Voltage_L3\" FLOAT,\n        \"Temperature\" FLOAT,\n        \"anomaly_flag\" BOOLEAN,\n        \"time_delta_s\" FLOAT,\n        \"Total_Current\" FLOAT,\n        \"idle_time_day\" INT,\n        \"idle_time_hour\" INT,\n        \"idle_time_week\" INT,\n       \"Cluster\"  VARCHAR,\n        \"Active_Power_L1\" FLOAT,\n        \"Active_Power_L2\" FLOAT,\n        \"Active_Power_L3\" FLOAT,\n        \"Power_Factor_L1\" FLOAT,\n        \"Power_Factor_L2\" FLOAT,\n        \"Power_Factor_L3\" FLOAT,\n        \"idle_time_month\" INT,\n        \"heating_time_day\" INT,\n        \"working_time_day\" INT,\n        \"heating_time_hour\" INT,\n        \"heating_time_week\" INT,\n        \"working_time_hour\" INT,\n        \"working_time_week\" INT,\n        \"Total_Active_Power\" FLOAT,\n        \"heating_time_month\" INT,\n        \"working_time_month\" INT,\n        \"Total_Current_Cheby\" FLOAT,\n        \"anomalies_day_count\" INT,\n        \"Total_Current_Butter\" FLOAT,\n        \"anomalies_week_count\" INT,\n        \"anomalies_month_count\" INT,\n        \"time_in_current_cluster\" INT,\n        \"time_since_last_anomaly\" INT,\n        \"Total_Active_Power_anomaly_zscore\" FLOAT\n    )\n  WHERE s.measurement = '${machine}'\n)\nSELECT\n    timestamp,\n    time_in_current_cluster / 60\nFROM raw r order by timestamp DESC LIMIT 1;\n\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Hours in actual state",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 27,
+      "panels": [],
+      "title": "Comparing measured values for ${machine} in state ${state}",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "fieldMinMax": false
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 13
+      },
+      "id": 16,
+      "options": {
+        "baidu": {
+          "callback": "bmapReady",
+          "key": ""
+        },
+        "editor": {
+          "format": "auto"
+        },
+        "editorMode": "visual",
+        "gaode": {
+          "key": "",
+          "plugin": "AMap.Scale,AMap.ToolBar"
+        },
+        "getOption": "const series = context.panel.data.series.map((s) => {\n  const sData = s.fields.find((f) => f.type === 'number').values.buffer || s.fields.find((f) => f.type === 'number').values;\n  const sTime = s.fields.find((f) => f.type === 'time').values.buffer || s.fields.find((f) => f.type === 'time').values;\n  \n  return {\n    name: s.refId,\n    type: 'line',\n    showSymbol: false,\n    areaStyle: {\n      opacity: 0.1,\n    },\n    lineStyle: {\n      width: 1,\n    },\n    data: sData.map((d, i) => [sTime[i], d.toFixed(2)]),\n  };\n});\n\n/**\n * Enable Data Zoom by default\n */\nsetTimeout(() => context.panel.chart.dispatchAction({\n  type: 'takeGlobalCursor',\n  key: 'dataZoomSelect',\n  dataZoomSelectActive: true,\n}), 500);\n\n/**\n * Update Time Range on Zoom\n */\ncontext.panel.chart.on('datazoom', function (params) {\n  const startValue = params.batch[0]?.startValue;\n  const endValue = params.batch[0]?.endValue;\n  locationService.partial({ from: startValue, to: endValue });\n});\n\nreturn {\n  backgroundColor: 'transparent',\n  tooltip: {\n    trigger: 'axis',\n  },\n  legend: {\n    left: '0',\n    bottom: '0',\n    data: context.panel.data.series.map((s) => s.refId),\n    textStyle: {\n      color: 'rgba(128, 128, 128, .9)',\n    },\n  },\n  toolbox: {\n    feature: {\n      dataZoom: {\n        yAxisIndex: 'none',\n        icon: {\n          zoom: 'path://',\n          back: 'path://',\n        },\n      },\n      saveAsImage: {},\n    }\n  },\n  xAxis: {\n    type: 'time',\n  },\n  yAxis: {\n    type: 'value',\n    min: 'dataMin',\n  },\n  grid: {\n    left: '2%',\n    right: '2%',\n    top: '2%',\n    bottom: 24,\n    containLabel: true,\n  },\n  series,\n};",
+        "google": {
+          "callback": "gmapReady",
+          "key": ""
+        },
+        "map": "json",
+        "renderer": "canvas",
+        "themeEditor": {
+          "config": "{}",
+          "name": "default"
+        },
+        "visualEditor": {
+          "code": "// 1. grab echarts and chart\nconst echarts = context.echarts;\nconst chart = context.panel.chart;\n\n// 2. pull the only DataFrame (adjust index if you have multiple queries)\nconst frame = context.panel.data.series[0];\n\n// 3. extract raw arrays\nconst names = frame.fields.find(f => f.name === 'field_name').values.toArray();\nconst avg = frame.fields.find(f => f.name === 'Priemerná hodnota').values.toArray();\nconst actual = frame.fields.find(f => f.name === 'Aktuálna hodnota').values.toArray();\nconst optimal = frame.fields.find(f => f.name === 'Optimálna hodnota').values.toArray();\n\n\nconst maxIdx = optimal.indexOf(Math.max(...optimal));\nconst N = optimal.length;\nconst angle = (2 * Math.PI / N) * maxIdx;\nconst radius = 0;    // how far from center\nconst cx = 0.5 + radius * Math.cos(angle);\nconst cy = 0.5 + radius * Math.sin(angle);\n\n// 4. build your radar indicators from the names\nconst indicators = names.map(n => ({ text: n }));\n\nreturn {\n  tooltip: {\n    trigger: 'item'\n  },\n  color: ['#02a612', '#faed00', '#0015ff'],\n  legend: {\n    data: ['Optimálna hodnota', 'Priemerná hodnota', 'Aktuálna hodnota'], left: 10, top: 0\n  },\n  radar: [\n    {\n      indicator: indicators,\n      radius: '70%',\n      startAngle: 90,\n      splitNumber: 5,\n      shape: 'circle',\n      axisName: {},\n      splitArea: {\n        areaStyle: {\n          shadowColor: 'rgba(0, 0, 0, 0.5)',\n          shadowBlur: 50\n        }\n      },\n      axisLine: {},\n      splitLine: {\n        lineStyle: {}\n      }\n    }\n  ],\n  series: [{\n    type: 'radar',\n    data: [\n      {\n        value: optimal,\n        name: 'Optimálna hodnota',\n        symbolSize: 12,\n        symbol: 'rect',\n        lineStyle: {\n          width: 25,\n          opacity: 0.3\n        },\n        // areaStyle: {\n        //   color: new context.echarts.graphic.RadialGradient(cy, cx, 1, [\n        //     {\n        //       color: 'rgba(255, 0, 0, 0.8)',\n        //       offset: 0.3\n        //     },\n        //     {\n        //       color: 'rgba(2, 166, 18, 0.9)',\n        //       offset: 0.4\n        //     }\n        //   ])\n        // }\n      },\n      {\n        value: avg,\n        name: 'Priemerná hodnota',\n        lineStyle: {\n          type: 'dashed'\n        },\n      },\n      {\n        value: actual,\n        name: 'Aktuálna hodnota',\n        lineStyle: {\n          type: 'dashed'\n        },\n      }\n\n    ]\n  }]\n};\n\n\n",
+          "dataset": [],
+          "radar": {
+            "indicator": "A:field_name",
+            "radius": "100",
+            "shape": "circle"
+          },
+          "series": []
+        }
+      },
+      "pluginVersion": "7.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH variable AS (\n  SELECT \n    CASE \n      WHEN '${state}' = 'Nečinný' THEN 'idle'\n      WHEN '${state}' = 'Zahrievanie' THEN 'heating'\n      WHEN '${state}' = 'Pracovný' THEN 'working'\n      WHEN '${state}' = 'Vypnutý' THEN 'off'\n      ELSE  '${state}' \n    END as state\n)\n  ,raw_data AS (\n  SELECT\n    timestamp,\n    measurement,\n    tags ->> 'cluster' AS cluster,\n    payload -> 'Average_State' AS average_state,\n    payload -> 'Optimal_State' AS optimal_state,\n    payload -> 'Last_Values' AS current_state\n  FROM\n    optimal_states_table\n  WHERE\n    measurement = '${machine}'\n    AND tags ->> 'cluster' = (SELECT state FROM variable)\n),\nunpivoted_data AS (\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Prúd L1' AS field_name,\n    CAST(average_state ->> 'Current_L1' AS FLOAT) AS average,\n    CAST(current_state ->> 'Current_L1' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Current_L1' AS FLOAT) AS optimal\n  FROM\n    raw_data\n  UNION\n  ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Prúd L2' AS field_name,\n    CAST(average_state ->> 'Current_L2' AS FLOAT),\n    CAST(current_state ->> 'Current_L2' AS FLOAT),\n    CAST(optimal_state ->> 'Current_L2' AS FLOAT)\n  FROM\n    raw_data\n  UNION\n  ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Prúd L3' AS field_name,\n    CAST(average_state ->> 'Current_L3' AS FLOAT),\n    CAST(current_state ->> 'Current_L3' AS FLOAT),\n    CAST(optimal_state ->> 'Current_L3' AS FLOAT)\n  FROM\n    raw_data\n  UNION\n  ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Napätie L1' AS field_name,\n    CAST(average_state ->> 'Voltage_L1' AS FLOAT),\n    CAST(current_state ->> 'Voltage_L1' AS FLOAT),\n    CAST(optimal_state ->> 'Voltage_L1' AS FLOAT)\n  FROM\n    raw_data\n  UNION\n  ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Napätie L2' AS field_name,\n    CAST(average_state ->> 'Voltage_L2' AS FLOAT),\n    CAST(current_state ->> 'Voltage_L2' AS FLOAT),\n    CAST(optimal_state ->> 'Voltage_L2' AS FLOAT)\n  FROM\n    raw_data\n  UNION\n  ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Napätie L3' AS field_name,\n    CAST(average_state ->> 'Voltage_L3' AS FLOAT),\n    CAST(current_state ->> 'Voltage_L3' AS FLOAT),\n    CAST(optimal_state ->> 'Voltage_L3' AS FLOAT)\n  FROM\n    raw_data\n  UNION\n  ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Činný výkon L1' AS field_name,\n    CAST(average_state ->> 'Active_Power_L1' AS FLOAT),\n    CAST(current_state ->> 'Active_Power_L1' AS FLOAT),\n    CAST(optimal_state ->> 'Active_Power_L1' AS FLOAT)\n  FROM\n    raw_data\n  UNION\n  ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Činný výkon L2' AS field_name,\n    CAST(average_state ->> 'Active_Power_L2' AS FLOAT),\n    CAST(current_state ->> 'Active_Power_L2' AS FLOAT),\n    CAST(optimal_state ->> 'Active_Power_L2' AS FLOAT)\n  FROM\n    raw_data\n  UNION\n  ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Činný výkon L3' AS field_name,\n    CAST(average_state ->> 'Active_Power_L3' AS FLOAT),\n    CAST(current_state ->> 'Active_Power_L3' AS FLOAT),\n    CAST(optimal_state ->> 'Active_Power_L3' AS FLOAT)\n  FROM\n    raw_data\n)\nSELECT\n  timestamp,\n  measurement,\n  cluster,\n  field_name,\n  average as \"Priemerná hodnota\",\n  current as \"Aktuálna hodnota\",\n  optimal as \"Optimálna hodnota\"\nFROM\n  unpivoted_data;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "measurement",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a9bb888b-cdef-4012-b456-719498165c45",
+                  "properties": {
+                    "field": "measurement",
+                    "fieldSrc": "field",
+                    "operator": "equal",
+                    "value": [
+                      "${machine}"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "9baa8988-0123-4456-b89a-b19497f5f6cd",
+              "type": "group"
+            },
+            "whereString": "measurement = '${machine}'"
+          },
+          "table": "optimal_states_table"
+        }
+      ],
+      "transparent": true,
+      "type": "volkovlabs-echarts-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "fieldMinMax": false
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 13
+      },
+      "id": 19,
+      "options": {
+        "baidu": {
+          "callback": "bmapReady",
+          "key": ""
+        },
+        "editor": {
+          "format": "auto"
+        },
+        "editorMode": "visual",
+        "gaode": {
+          "key": "",
+          "plugin": "AMap.Scale,AMap.ToolBar"
+        },
+        "getOption": "const series = context.panel.data.series.map((s) => {\n  const sData = s.fields.find((f) => f.type === 'number').values.buffer || s.fields.find((f) => f.type === 'number').values;\n  const sTime = s.fields.find((f) => f.type === 'time').values.buffer || s.fields.find((f) => f.type === 'time').values;\n  \n  return {\n    name: s.refId,\n    type: 'line',\n    showSymbol: false,\n    areaStyle: {\n      opacity: 0.1,\n    },\n    lineStyle: {\n      width: 1,\n    },\n    data: sData.map((d, i) => [sTime[i], d.toFixed(2)]),\n  };\n});\n\n/**\n * Enable Data Zoom by default\n */\nsetTimeout(() => context.panel.chart.dispatchAction({\n  type: 'takeGlobalCursor',\n  key: 'dataZoomSelect',\n  dataZoomSelectActive: true,\n}), 500);\n\n/**\n * Update Time Range on Zoom\n */\ncontext.panel.chart.on('datazoom', function (params) {\n  const startValue = params.batch[0]?.startValue;\n  const endValue = params.batch[0]?.endValue;\n  locationService.partial({ from: startValue, to: endValue });\n});\n\nreturn {\n  backgroundColor: 'transparent',\n  tooltip: {\n    trigger: 'axis',\n  },\n  legend: {\n    left: '0',\n    bottom: '0',\n    data: context.panel.data.series.map((s) => s.refId),\n    textStyle: {\n      color: 'rgba(128, 128, 128, .9)',\n    },\n  },\n  toolbox: {\n    feature: {\n      dataZoom: {\n        yAxisIndex: 'none',\n        icon: {\n          zoom: 'path://',\n          back: 'path://',\n        },\n      },\n      saveAsImage: {},\n    }\n  },\n  xAxis: {\n    type: 'time',\n  },\n  yAxis: {\n    type: 'value',\n    min: 'dataMin',\n  },\n  grid: {\n    left: '2%',\n    right: '2%',\n    top: '2%',\n    bottom: 24,\n    containLabel: true,\n  },\n  series,\n};",
+        "google": {
+          "callback": "gmapReady",
+          "key": ""
+        },
+        "map": "json",
+        "renderer": "canvas",
+        "themeEditor": {
+          "config": "{}",
+          "name": "default"
+        },
+        "visualEditor": {
+          "code": "// 1. grab echarts and chart\nconst echarts = context.echarts;\nconst chart = context.panel.chart;\n\n// 2. pull the only DataFrame (adjust index if you have multiple queries)\nconst frame = context.panel.data.series[0];\n\n// 3. extract raw arrays\nconst names = frame.fields.find(f => f.name === 'field_name').values.toArray();\nconst avg = frame.fields.find(f => f.name === 'Priemerná hodnota').values.toArray();\nconst actual = frame.fields.find(f => f.name === 'Aktuálna hodnota').values.toArray();\nconst optimal = frame.fields.find(f => f.name === 'Optimálna hodnota').values.toArray();\n\n\nconst maxIdx = optimal.indexOf(Math.max(...optimal));\nconst N = optimal.length;\nconst angle = (2 * Math.PI / N) * maxIdx;\nconst radius = 0;    // how far from center\nconst cx = 0.5 + radius * Math.cos(angle);\nconst cy = 0.5 + radius * Math.sin(angle);\n\n// 4. build your radar indicators from the names\nconst indicators = names.map(n => ({ text: n }));\n\nreturn {\n  tooltip: {\n    trigger: 'item'\n  },\n  color: ['#02a612', '#faed00', '#0015ff'],\n  legend: {\n    data: ['Optimálna hodnota', 'Priemerná hodnota', 'Aktuálna hodnota'], left: 10, top: 0\n  },\n  radar: [\n    {\n      indicator: indicators,\n      radius: '70%',\n      startAngle: 90,\n      splitNumber: 5,\n      shape: 'circle',\n      axisName: {},\n      splitArea: {\n        areaStyle: {\n          shadowColor: 'rgba(0, 0, 0, 0.5)',\n          shadowBlur: 50\n        }\n      },\n      axisLine: {},\n      splitLine: {\n        lineStyle: {}\n      }\n    }\n  ],\n  series: [{\n    type: 'radar',\n    data: [\n      {\n        value: optimal,\n        name: 'Optimálna hodnota',\n        symbolSize: 12,\n        symbol: 'rect',\n        lineStyle: {\n          width: 25,\n          opacity: 0.3\n        },\n        // areaStyle: {\n        //   color: new context.echarts.graphic.RadialGradient(cy, cx, 1, [\n        //     {\n        //       color: 'rgba(255, 0, 0, 0.8)',\n        //       offset: 0.3\n        //     },\n        //     {\n        //       color: 'rgba(2, 166, 18, 0.9)',\n        //       offset: 0.4\n        //     }\n        //   ])\n        // }\n      },\n      {\n        value: avg,\n        name: 'Priemerná hodnota',\n        lineStyle: {\n          type: 'dashed'\n        },\n      },\n      {\n        value: actual,\n        name: 'Aktuálna hodnota',\n        lineStyle: {\n          type: 'dashed'\n        },\n      }\n\n    ]\n  }]\n};\n\n\n",
+          "dataset": [],
+          "radar": {
+            "indicator": "A:field_name",
+            "radius": "100",
+            "shape": "circle"
+          },
+          "series": []
+        }
+      },
+      "pluginVersion": "7.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH variable AS (\n  SELECT \n    CASE \n      WHEN '${state}' = 'Nečinný' THEN 'idle'\n      WHEN '${state}' = 'Zahrievanie' THEN 'heating'\n      WHEN '${state}' = 'Pracovný' THEN 'working'\n      WHEN '${state}' = 'Vypnutý' THEN 'off'\n      ELSE  '${state}' \n    END as state\n),\nraw_data AS (\n  SELECT\n    timestamp,\n    measurement,\n    tags ->> 'cluster' AS cluster,\n    payload -> 'Average_State' AS average_state,\n    payload -> 'Optimal_State' AS optimal_state,\n    payload -> 'Last_Values' AS current_state\n  FROM\n    optimal_states_table\n  WHERE\n    measurement = '${machine}'\n    AND tags ->> 'cluster' = (SELECT state FROM variable)\n),\nunpivoted_data AS (\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Prúd L1' AS field_name,\n    CAST(average_state ->> 'Current_L1' AS FLOAT) AS average,\n    CAST(current_state ->> 'Current_L1' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Current_L1' AS FLOAT) AS optimal\n  FROM\n    raw_data\n  UNION ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Prúd L2' AS field_name,\n    CAST(average_state ->> 'Current_L2' AS FLOAT) AS average,\n    CAST(current_state ->> 'Current_L2' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Current_L2' AS FLOAT) AS optimal\n  FROM\n    raw_data\n  UNION ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Prúd L3' AS field_name,\n    CAST(average_state ->> 'Current_L3' AS FLOAT) AS average,\n    CAST(current_state ->> 'Current_L3' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Current_L3' AS FLOAT) AS optimal\n  FROM\n    raw_data\n)\nSELECT\n  timestamp,\n  measurement,\n  cluster,\n  field_name,\n  average AS \"Priemerná hodnota\",\n  current AS \"Aktuálna hodnota\",\n  optimal AS \"Optimálna hodnota\"\nFROM\n  unpivoted_data;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "measurement",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a9bb888b-cdef-4012-b456-719498165c45",
+                  "properties": {
+                    "field": "measurement",
+                    "fieldSrc": "field",
+                    "operator": "equal",
+                    "value": [
+                      "${machine}"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "9baa8988-0123-4456-b89a-b19497f5f6cd",
+              "type": "group"
+            },
+            "whereString": "measurement = '${machine}'"
+          },
+          "table": "optimal_states_table"
+        }
+      ],
+      "transparent": true,
+      "type": "volkovlabs-echarts-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "fieldMinMax": false
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 23
+      },
+      "id": 18,
+      "options": {
+        "baidu": {
+          "callback": "bmapReady",
+          "key": ""
+        },
+        "editor": {
+          "format": "auto"
+        },
+        "editorMode": "visual",
+        "gaode": {
+          "key": "",
+          "plugin": "AMap.Scale,AMap.ToolBar"
+        },
+        "getOption": "const series = context.panel.data.series.map((s) => {\n  const sData = s.fields.find((f) => f.type === 'number').values.buffer || s.fields.find((f) => f.type === 'number').values;\n  const sTime = s.fields.find((f) => f.type === 'time').values.buffer || s.fields.find((f) => f.type === 'time').values;\n  \n  return {\n    name: s.refId,\n    type: 'line',\n    showSymbol: false,\n    areaStyle: {\n      opacity: 0.1,\n    },\n    lineStyle: {\n      width: 1,\n    },\n    data: sData.map((d, i) => [sTime[i], d.toFixed(2)]),\n  };\n});\n\n/**\n * Enable Data Zoom by default\n */\nsetTimeout(() => context.panel.chart.dispatchAction({\n  type: 'takeGlobalCursor',\n  key: 'dataZoomSelect',\n  dataZoomSelectActive: true,\n}), 500);\n\n/**\n * Update Time Range on Zoom\n */\ncontext.panel.chart.on('datazoom', function (params) {\n  const startValue = params.batch[0]?.startValue;\n  const endValue = params.batch[0]?.endValue;\n  locationService.partial({ from: startValue, to: endValue });\n});\n\nreturn {\n  backgroundColor: 'transparent',\n  tooltip: {\n    trigger: 'axis',\n  },\n  legend: {\n    left: '0',\n    bottom: '0',\n    data: context.panel.data.series.map((s) => s.refId),\n    textStyle: {\n      color: 'rgba(128, 128, 128, .9)',\n    },\n  },\n  toolbox: {\n    feature: {\n      dataZoom: {\n        yAxisIndex: 'none',\n        icon: {\n          zoom: 'path://',\n          back: 'path://',\n        },\n      },\n      saveAsImage: {},\n    }\n  },\n  xAxis: {\n    type: 'time',\n  },\n  yAxis: {\n    type: 'value',\n    min: 'dataMin',\n  },\n  grid: {\n    left: '2%',\n    right: '2%',\n    top: '2%',\n    bottom: 24,\n    containLabel: true,\n  },\n  series,\n};",
+        "google": {
+          "callback": "gmapReady",
+          "key": ""
+        },
+        "map": "json",
+        "renderer": "canvas",
+        "themeEditor": {
+          "config": "{}",
+          "name": "default"
+        },
+        "visualEditor": {
+          "code": "// 1. grab echarts and chart\nconst echarts = context.echarts;\nconst chart = context.panel.chart;\n\n// 2. pull the only DataFrame (adjust index if you have multiple queries)\nconst frame = context.panel.data.series[0];\n\n// 3. extract raw arrays\nconst names = frame.fields.find(f => f.name === 'field_name').values.toArray();\nconst avg = frame.fields.find(f => f.name === 'Priemerná hodnota').values.toArray();\nconst actual = frame.fields.find(f => f.name === 'Aktuálna hodnota').values.toArray();\nconst optimal = frame.fields.find(f => f.name === 'Optimálna hodnota').values.toArray();\n\n\nconst maxIdx = optimal.indexOf(Math.max(...optimal));\nconst N = optimal.length;\nconst angle = (2 * Math.PI / N) * maxIdx;\nconst radius = 0;    // how far from center\nconst cx = 0.5 + radius * Math.cos(angle);\nconst cy = 0.5 + radius * Math.sin(angle);\n\n// 4. build your radar indicators from the names\nconst indicators = names.map(n => ({ text: n }));\n\nreturn {\n  tooltip: {\n    trigger: 'item'\n  },\n  color: ['#02a612', '#faed00', '#0015ff'],\n  legend: {\n    data: ['Optimálna hodnota', 'Priemerná hodnota', 'Aktuálna hodnota'], left: 10, top: 0\n  },\n  radar: [\n    {\n      indicator: indicators,\n      radius: '70%',\n      startAngle: 90,\n      splitNumber: 5,\n      shape: 'circle',\n      axisName: {},\n      splitArea: {\n        areaStyle: {\n          shadowColor: 'rgba(0, 0, 0, 0.5)',\n          shadowBlur: 50\n        }\n      },\n      axisLine: {},\n      splitLine: {\n        lineStyle: {}\n      }\n    }\n  ],\n  series: [{\n    type: 'radar',\n    data: [\n      {\n        value: optimal,\n        name: 'Optimálna hodnota',\n        symbolSize: 12,\n        symbol: 'rect',\n        lineStyle: {\n          width: 25,\n          opacity: 0.3\n        },\n        // areaStyle: {\n        //   color: new context.echarts.graphic.RadialGradient(cy, cx, 1, [\n        //     {\n        //       color: 'rgba(255, 0, 0, 0.8)',\n        //       offset: 0.3\n        //     },\n        //     {\n        //       color: 'rgba(2, 166, 18, 0.9)',\n        //       offset: 0.4\n        //     }\n        //   ])\n        // }\n      },\n      {\n        value: avg,\n        name: 'Priemerná hodnota',\n        lineStyle: {\n          type: 'dashed'\n        },\n      },\n      {\n        value: actual,\n        name: 'Aktuálna hodnota',\n        lineStyle: {\n          type: 'dashed'\n        },\n      }\n\n    ]\n  }]\n};\n\n\n",
+          "dataset": [],
+          "radar": {
+            "indicator": "A:field_name",
+            "radius": "100",
+            "shape": "circle"
+          },
+          "series": []
+        }
+      },
+      "pluginVersion": "7.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH variable AS (\n  SELECT \n    CASE \n      WHEN '${state}' = 'Nečinný' THEN 'idle'\n      WHEN '${state}' = 'Zahrievanie' THEN 'heating'\n      WHEN '${state}' = 'Pracovný' THEN 'working'\n      WHEN '${state}' = 'Vypnutý' THEN 'off'\n      ELSE  '${state}' \n    END as state\n),\nraw_data AS (\n  SELECT\n    timestamp,\n    measurement,\n    tags ->> 'cluster' AS cluster,\n    payload -> 'Average_State' AS average_state,\n    payload -> 'Optimal_State' AS optimal_state,\n    payload -> 'Last_Values' AS current_state\n  FROM\n    optimal_states_table\n  WHERE\n    measurement = '${machine}'\n    AND tags ->> 'cluster' = (SELECT state FROM variable)\n),\nunpivoted_data AS (\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Napätie L1' AS field_name,\n    CAST(average_state ->> 'Voltage_L1' AS FLOAT) AS average,\n    CAST(current_state ->> 'Voltage_L1' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Voltage_L1' AS FLOAT) AS optimal\n  FROM\n    raw_data\n  UNION ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Napätie L2' AS field_name,\n    CAST(average_state ->> 'Voltage_L2' AS FLOAT) AS average,\n    CAST(current_state ->> 'Voltage_L2' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Voltage_L2' AS FLOAT) AS optimal\n  FROM\n    raw_data\n  UNION ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Napätie L3' AS field_name,\n    CAST(average_state ->> 'Voltage_L3' AS FLOAT) AS average,\n    CAST(current_state ->> 'Voltage_L3' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Voltage_L3' AS FLOAT) AS optimal\n  FROM\n    raw_data\n)\nSELECT\n  timestamp,\n  measurement,\n  cluster,\n  field_name,\n  average AS \"Priemerná hodnota\",\n  current AS \"Aktuálna hodnota\",\n  optimal AS \"Optimálna hodnota\"\nFROM\n  unpivoted_data;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "measurement",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a9bb888b-cdef-4012-b456-719498165c45",
+                  "properties": {
+                    "field": "measurement",
+                    "fieldSrc": "field",
+                    "operator": "equal",
+                    "value": [
+                      "${machine}"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "9baa8988-0123-4456-b89a-b19497f5f6cd",
+              "type": "group"
+            },
+            "whereString": "measurement = '${machine}'"
+          },
+          "table": "optimal_states_table"
+        }
+      ],
+      "transparent": true,
+      "type": "volkovlabs-echarts-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "fieldMinMax": false
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 23
+      },
+      "id": 17,
+      "options": {
+        "baidu": {
+          "callback": "bmapReady",
+          "key": ""
+        },
+        "editor": {
+          "format": "auto"
+        },
+        "editorMode": "visual",
+        "gaode": {
+          "key": "",
+          "plugin": "AMap.Scale,AMap.ToolBar"
+        },
+        "getOption": "const series = context.panel.data.series.map((s) => {\n  const sData = s.fields.find((f) => f.type === 'number').values.buffer || s.fields.find((f) => f.type === 'number').values;\n  const sTime = s.fields.find((f) => f.type === 'time').values.buffer || s.fields.find((f) => f.type === 'time').values;\n  \n  return {\n    name: s.refId,\n    type: 'line',\n    showSymbol: false,\n    areaStyle: {\n      opacity: 0.1,\n    },\n    lineStyle: {\n      width: 1,\n    },\n    data: sData.map((d, i) => [sTime[i], d.toFixed(2)]),\n  };\n});\n\n/**\n * Enable Data Zoom by default\n */\nsetTimeout(() => context.panel.chart.dispatchAction({\n  type: 'takeGlobalCursor',\n  key: 'dataZoomSelect',\n  dataZoomSelectActive: true,\n}), 500);\n\n/**\n * Update Time Range on Zoom\n */\ncontext.panel.chart.on('datazoom', function (params) {\n  const startValue = params.batch[0]?.startValue;\n  const endValue = params.batch[0]?.endValue;\n  locationService.partial({ from: startValue, to: endValue });\n});\n\nreturn {\n  backgroundColor: 'transparent',\n  tooltip: {\n    trigger: 'axis',\n  },\n  legend: {\n    left: '0',\n    bottom: '0',\n    data: context.panel.data.series.map((s) => s.refId),\n    textStyle: {\n      color: 'rgba(128, 128, 128, .9)',\n    },\n  },\n  toolbox: {\n    feature: {\n      dataZoom: {\n        yAxisIndex: 'none',\n        icon: {\n          zoom: 'path://',\n          back: 'path://',\n        },\n      },\n      saveAsImage: {},\n    }\n  },\n  xAxis: {\n    type: 'time',\n  },\n  yAxis: {\n    type: 'value',\n    min: 'dataMin',\n  },\n  grid: {\n    left: '2%',\n    right: '2%',\n    top: '2%',\n    bottom: 24,\n    containLabel: true,\n  },\n  series,\n};",
+        "google": {
+          "callback": "gmapReady",
+          "key": ""
+        },
+        "map": "json",
+        "renderer": "canvas",
+        "themeEditor": {
+          "config": "{}",
+          "name": "default"
+        },
+        "visualEditor": {
+          "code": "// 1. grab echarts and chart\nconst echarts = context.echarts;\nconst chart = context.panel.chart;\n\n// 2. pull the only DataFrame (adjust index if you have multiple queries)\nconst frame = context.panel.data.series[0];\n\n// 3. extract raw arrays\nconst names = frame.fields.find(f => f.name === 'field_name').values.toArray();\nconst avg = frame.fields.find(f => f.name === 'Priemerná hodnota').values.toArray();\nconst actual = frame.fields.find(f => f.name === 'Aktuálna hodnota').values.toArray();\nconst optimal = frame.fields.find(f => f.name === 'Optimálna hodnota').values.toArray();\n\n\nconst maxIdx = optimal.indexOf(Math.max(...optimal));\nconst N = optimal.length;\nconst angle = (2 * Math.PI / N) * maxIdx;\nconst radius = 0;    // how far from center\nconst cx = 0.5 + radius * Math.cos(angle);\nconst cy = 0.5 + radius * Math.sin(angle);\n\n// 4. build your radar indicators from the names\nconst indicators = names.map(n => ({ text: n }));\n\nreturn {\n  tooltip: {\n    trigger: 'item'\n  },\n  color: ['#02a612', '#faed00', '#0015ff'],\n  legend: {\n    data: ['Optimálna hodnota', 'Priemerná hodnota', 'Aktuálna hodnota'], left: 10, top: 0\n  },\n  radar: [\n    {\n      indicator: indicators,\n      radius: '70%',\n      startAngle: 90,\n      splitNumber: 5,\n      shape: 'circle',\n      axisName: {},\n      splitArea: {\n        areaStyle: {\n          shadowColor: 'rgba(0, 0, 0, 0.5)',\n          shadowBlur: 50\n        }\n      },\n      axisLine: {},\n      splitLine: {\n        lineStyle: {}\n      }\n    }\n  ],\n  series: [{\n    type: 'radar',\n    data: [\n      {\n        value: optimal,\n        name: 'Optimálna hodnota',\n        symbolSize: 12,\n        symbol: 'rect',\n        lineStyle: {\n          width: 25,\n          opacity: 0.3\n        },\n        // areaStyle: {\n        //   color: new context.echarts.graphic.RadialGradient(cy, cx, 1, [\n        //     {\n        //       color: 'rgba(255, 0, 0, 0.8)',\n        //       offset: 0.3\n        //     },\n        //     {\n        //       color: 'rgba(2, 166, 18, 0.9)',\n        //       offset: 0.4\n        //     }\n        //   ])\n        // }\n      },\n      {\n        value: avg,\n        name: 'Priemerná hodnota',\n        lineStyle: {\n          type: 'dashed'\n        },\n      },\n      {\n        value: actual,\n        name: 'Aktuálna hodnota',\n        lineStyle: {\n          type: 'dashed'\n        },\n      }\n\n    ]\n  }]\n};\n\n\n",
+          "dataset": [],
+          "radar": {
+            "indicator": "A:field_name",
+            "radius": "100",
+            "shape": "circle"
+          },
+          "series": []
+        }
+      },
+      "pluginVersion": "7.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH variable AS (\n  SELECT \n    CASE \n      WHEN '${state}' = 'Nečinný' THEN 'idle'\n      WHEN '${state}' = 'Zahrievanie' THEN 'heating'\n      WHEN '${state}' = 'Pracovný' THEN 'working'\n      WHEN '${state}' = 'Vypnutý' THEN 'off'\n      ELSE  '${state}' \n    END as state\n),\nraw_data AS (\n  SELECT\n    timestamp,\n    measurement,\n    tags ->> 'cluster' AS cluster,\n    payload -> 'Average_State' AS average_state,\n    payload -> 'Optimal_State' AS optimal_state,\n    payload -> 'Last_Values' AS current_state\n  FROM\n    optimal_states_table\n  WHERE\n    measurement = '${machine}'\n    AND tags ->> 'cluster' = (SELECT state FROM variable)\n),\nunpivoted_data AS (\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Činný výkon L1' AS field_name,\n    CAST(average_state ->> 'Active_Power_L1' AS FLOAT) AS average,\n    CAST(current_state ->> 'Active_Power_L1' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Active_Power_L1' AS FLOAT) AS optimal\n  FROM\n    raw_data\n  UNION ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Činný výkon L2' AS field_name,\n    CAST(average_state ->> 'Active_Power_L2' AS FLOAT) AS average,\n    CAST(current_state ->> 'Active_Power_L2' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Active_Power_L2' AS FLOAT) AS optimal\n  FROM\n    raw_data\n  UNION ALL\n  SELECT\n    timestamp,\n    measurement,\n    cluster,\n    'Činný výkon L3' AS field_name,\n    CAST(average_state ->> 'Active_Power_L3' AS FLOAT) AS average,\n    CAST(current_state ->> 'Active_Power_L3' AS FLOAT) AS current,\n    CAST(optimal_state ->> 'Active_Power_L3' AS FLOAT) AS optimal\n  FROM\n    raw_data\n)\nSELECT\n  timestamp,\n  measurement,\n  cluster,\n  field_name,\n  average AS \"Priemerná hodnota\",\n  current AS \"Aktuálna hodnota\",\n  optimal AS \"Optimálna hodnota\"\nFROM\n  unpivoted_data;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "measurement",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "a9bb888b-cdef-4012-b456-719498165c45",
+                  "properties": {
+                    "field": "measurement",
+                    "fieldSrc": "field",
+                    "operator": "equal",
+                    "value": [
+                      "${machine}"
+                    ],
+                    "valueError": [
+                      null
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "9baa8988-0123-4456-b89a-b19497f5f6cd",
+              "type": "group"
+            },
+            "whereString": "measurement = '${machine}'"
+          },
+          "table": "optimal_states_table"
+        }
+      ],
+      "transparent": true,
+      "type": "volkovlabs-echarts-panel"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 28,
+      "panels": [],
+      "title": "Anomaly overview",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 50,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "id": 20,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.5,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH raw AS (SELECT\n    s.*,\n    p.*\nFROM\n    statistics_table AS s,\n    json_to_record(payload::json) AS p(\n        \"idle_time_day\" INT,\n        \"heating_time_day\" INT,\n        \"working_time_day\" INT\n    )\n  WHERE s.measurement = '${machine}' AND date(s.timestamp) BETWEEN $__timeFrom()  AND $__timeTo() \n)\nSELECT\n    date(timestamp) as day,\n    MAX(idle_time_day) / 60  AS \"Nečinný\",\n    MAX(working_time_day) / 60 AS \"Práca\",\n    MAX(heating_time_day) / 60  AS \"Zahrievanie\"\nFROM raw r\nGROUP BY date(timestamp);\n\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Clusters hours by days",
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "calculation": "sum",
+            "colorPalette": "interpolateRdYlGn",
+            "colorSpace": "rgb",
+            "groupBy": 60,
+            "invertPalette": true,
+            "nullValueColor": "rgb(155, 155, 155)"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "anomalies_day_count"
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 44
+      },
+      "id": 21,
+      "options": {
+        "from": "0",
+        "legendGradientQuality": "high",
+        "regions": [],
+        "showCellBorder": true,
+        "showLegend": true,
+        "showTooltip": false,
+        "showValueIndicator": true,
+        "to": "0"
+      },
+      "pluginVersion": "2.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH raw AS (\n    SELECT\n        s.*,\n        p.*\n    FROM\n        statistics_table AS s,\n        json_to_record(payload::json) AS p(\n            \"anomaly_flag\" bool\n        )\n    WHERE\n        s.measurement = '${machine}'\n        AND DATE(s.timestamp) BETWEEN $__timeFrom()  AND $__timeTo()\n)\nSELECT \n        timestamp as current_day,\n        anomaly_flag::int anomaly_flag\n    FROM raw",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Anomalies in time for device ${machine}",
+      "transparent": true,
+      "type": "marcusolsson-hourly-heatmap-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 52
+      },
+      "id": 22,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "x_axis",
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH raw AS (\n    SELECT\n        s.*,\n        p.*\n    FROM\n        statistics_table AS s,\n        json_to_record(payload::json) AS p(\n            \"anomaly_flag\" bool\n        )\n    WHERE\n        s.measurement = '${machine}'\n        AND DATE(s.timestamp) BETWEEN $__timeFrom()  AND $__timeTo() \n),\nprep AS (\n    SELECT DISTINCT\n        DATE(timestamp) as current_day,\n        SUM(anomaly_flag::int) OVER(PARTITION BY DATE(timestamp) ORDER BY timestamp) AS daily_anomaly_count,\n        SUM(anomaly_flag::int) OVER(PARTITION BY DATE_PART('month',timestamp) ORDER BY timestamp ROWS UNBOUNDED PRECEDING) AS monthly_anomaly_count\n    FROM raw\n)\nSELECT\n    current_day || ', mesiac: ' || DATE_PART('month',current_day) as \"Dátum\",\n    MAX(daily_anomaly_count) AS \"Denný počet anomálií\",\n    MAX(monthly_anomaly_count) AS \"Mesačný počet anomálií\"\nFROM prep group by current_day;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Anomalies count day and month",
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_POSTGRESQL_TAP}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 63
+      },
+      "id": 23,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "x_axis",
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.1.0-pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_POSTGRESQL_TAP}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH raw AS (\n    SELECT\n        s.*,\n        p.*\n    FROM\n        statistics_table AS s,\n        json_to_record(payload::json) AS p(\n            \"anomaly_flag\" bool\n        )\n    WHERE\n        s.measurement = '${machine}'\n        AND DATE(s.timestamp) BETWEEN $__timeFrom()  AND $__timeTo() \n),\nprep AS (\n    SELECT DISTINCT\n        DATE(timestamp) as current_day,\n        SUM(anomaly_flag::int) OVER(PARTITION BY DATE(timestamp) ORDER BY timestamp) AS daily_anomaly_count,\n        SUM(anomaly_flag::int) OVER(PARTITION BY DATE_PART('week',timestamp) ORDER BY timestamp ROWS UNBOUNDED PRECEDING) AS weekly_anomaly_count\n    FROM raw\n)\nSELECT\n    current_day || ', týŽden: ' || DATE_PART('week',current_day) as \"Dátum\",\n    MAX(daily_anomaly_count) AS \"Denný počet anomálií\",\n    MAX(weekly_anomaly_count) AS \"Týždenný počet anomálií\"\nFROM prep group by current_day;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Anomalies count day and week",
+      "transparent": true,
+      "type": "barchart"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "${DS_POSTGRESQL_TAP}"
+        },
+        "definition": "SELECT DISTINCT measurement FROM optimal_states_table",
+        "includeAll": false,
+        "label": "Device",
+        "name": "machine",
+        "options": [],
+        "query": "SELECT DISTINCT measurement FROM optimal_states_table",
+        "refresh": 1,
+        "regex": "/.*/",
+        "sort": 3,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "${DS_POSTGRESQL_TAP}"
+        },
+        "definition": "SELECT \n CASE WHEN tags->>'cluster' = 'idle' THEN 'Nečinný'\n WHEN tags->>'cluster' = 'working' THEN 'Pracovný'\n WHEN tags->>'cluster' = 'heating' THEN 'Zahrievanie'\n WHEN tags->>'cluster' = 'off' THEN 'Vypnutý'\nELSE \ntags->>'cluster' \nEND AS cluster \nFROM optimal_states_table\n WHERE measurement = '${machine}'",
+        "includeAll": false,
+        "label": "State",
+        "name": "state",
+        "options": [],
+        "query": "SELECT \n CASE WHEN tags->>'cluster' = 'idle' THEN 'Nečinný'\n WHEN tags->>'cluster' = 'working' THEN 'Pracovný'\n WHEN tags->>'cluster' = 'heating' THEN 'Zahrievanie'\n WHEN tags->>'cluster' = 'off' THEN 'Vypnutý'\nELSE \ntags->>'cluster' \nEND AS cluster \nFROM optimal_states_table\n WHERE measurement = '${machine}'",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Device state analysis",
+  "uid": "cc98c272-18f6-4d21-b9a6-41d25ea3b2f2",
+  "version": 2,
+  "weekStart": ""
+}

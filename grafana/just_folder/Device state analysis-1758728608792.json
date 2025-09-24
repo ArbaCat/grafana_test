@@ -121,7 +121,7 @@
       {
         "datasource": {
           "type": "grafana-postgresql-datasource",
-          "uid": "bez1zyok80qv4c"
+          "uid": "${DS_POSTGRESQL_TAP}"
         },
         "fieldConfig": {
           "defaults": {
@@ -196,7 +196,7 @@
           {
             "datasource": {
               "type": "grafana-postgresql-datasource",
-              "uid": "bez1zyok80qv4c"
+              "uid": "${DS_POSTGRESQL_TAP}"
             },
             "editorMode": "code",
             "format": "table",
@@ -242,7 +242,7 @@
       {
         "datasource": {
           "type": "grafana-postgresql-datasource",
-          "uid": "${DS_POSTGRESQL_TAP}"
+          "uid": "bez1zyok80qv4c"
         },
         "fieldConfig": {
           "defaults": {
@@ -330,7 +330,7 @@
           {
             "datasource": {
               "type": "grafana-postgresql-datasource",
-              "uid": "${DS_POSTGRESQL_TAP}"
+              "uid": "bez1zyok80qv4c"
             },
             "editorMode": "code",
             "format": "table",

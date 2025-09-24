@@ -1402,8 +1402,8 @@
       "list": [
         {
           "current": {
-            "text": "",
-            "value": ""
+            "text": "Chladenie",
+            "value": "Chladenie"
           },
           "datasource": {
             "type": "grafana-postgresql-datasource",

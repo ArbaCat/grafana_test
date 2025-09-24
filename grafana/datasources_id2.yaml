@@ -1,8 +1,0 @@
-apiVersion: 1
-
-datasources:
-  - name: 'My HTTP API GIT'
-    type: 'marcusolsson-json-datasource'
-    access: proxy
-    orgId: 2
-    url: http://api.service.example.url

@@ -242,7 +242,7 @@
       {
         "datasource": {
           "type": "grafana-postgresql-datasource",
-          "uid": "${DS_POSTGRESQL_TAP}"
+          "uid": "bez1zyok80qv4c"
         },
         "fieldConfig": {
           "defaults": {
@@ -997,7 +997,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": 0
                 },
                 {
                   "color": "red",
@@ -1037,7 +1038,7 @@
           "xTickLabelRotation": -45,
           "xTickLabelSpacing": 0
         },
-        "pluginVersion": "12.1.0-pre",
+        "pluginVersion": "12.3.0-17962464148",
         "targets": [
           {
             "datasource": {
@@ -1078,33 +1079,7 @@
           "uid": "${DS_POSTGRESQL_TAP}"
         },
         "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "calculation": "sum",
-              "colorPalette": "interpolateRdYlGn",
-              "colorSpace": "rgb",
-              "groupBy": 60,
-              "invertPalette": true,
-              "nullValueColor": "rgb(155, 155, 155)"
-            },
-            "fieldMinMax": false,
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
+          "defaults": {},
           "overrides": [
             {
               "matcher": {
@@ -1132,7 +1107,7 @@
           "showValueIndicator": true,
           "to": "0"
         },
-        "pluginVersion": "2.0.1",
+        "pluginVersion": "12.3.0-17962464148",
         "targets": [
           {
             "datasource": {
@@ -1204,7 +1179,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": 0
                 },
                 {
                   "color": "red",
@@ -1245,7 +1221,7 @@
           "xTickLabelRotation": -45,
           "xTickLabelSpacing": 0
         },
-        "pluginVersion": "12.1.0-pre",
+        "pluginVersion": "12.3.0-17962464148",
         "targets": [
           {
             "datasource": {
@@ -1317,7 +1293,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": 0
                 },
                 {
                   "color": "red",
@@ -1358,7 +1335,7 @@
           "xTickLabelRotation": -45,
           "xTickLabelSpacing": 0
         },
-        "pluginVersion": "12.1.0-pre",
+        "pluginVersion": "12.3.0-17962464148",
         "targets": [
           {
             "datasource": {
@@ -1402,8 +1379,8 @@
       "list": [
         {
           "current": {
-            "text": "Chladenie",
-            "value": "Chladenie"
+            "text": "M02",
+            "value": "M02"
           },
           "datasource": {
             "type": "grafana-postgresql-datasource",
